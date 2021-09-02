@@ -5,7 +5,7 @@ var pool = mysql.createConnection({
     hots: 'localhost',
     user: 'root',
     password: '',
-    database: 'fullstack_01',
+    database: 'alkemy',
     port: 3306
 })
 
