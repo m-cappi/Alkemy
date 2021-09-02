@@ -6,7 +6,7 @@ var pool = require("../pool.js");
 
 router.get("/", async function (req, res, next) {
     //SELECT
-    let data = await pool.query("select * from categorias");
+    let data = await pool.query("select * from categories");
     res.status(200).json(data);
     console.log(data);
 });
