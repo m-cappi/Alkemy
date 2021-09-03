@@ -24,31 +24,32 @@
             <form id="newEntry">
                 <div>
                     <label for="newConcept">Concepto</label>
-                    <input type="text" name="concept" id="newConcept">
+                    <input type="text" name="concept" id="newConcept" required>
                 </div>
                 <div>
                     <label for="newAmount">Cantidad</label>
-                    <input type="number" step=".5" name="amount" id="newAmount">
+                    <input type="number" name="amount" id="newAmount" required>
                 </div>
                 <div>
                     <label for="newDate">Fecha</label>
-                    <input type="date" name="date" id="newDate">
+                    <input type="date" name="creation_date" id="newDate" required>
                 </div>
                 <div>
 
 
-                    <label for="newIncome"><input type="radio" name="newType" id="newIncome" value="ingreso">
-                        Ingreso</label>
+                    <label for="newIncome"><input type="radio" name="fk_type" id="newIncome" value="1" required>
+                        Income</label>
 
-                    <label for="newOutcome"><input type="radio" name="newType" id="newOutcome" value="egreso">
-                        Egreso</label>
+                    <label for="newOutcome"><input type="radio" name="fk_type" id="newOutcome" value="2" checked>
+                        Expense</label>
                 </div>
                 <div>
                     <label for="newCategory">Categoria</label>
-                    <select name="" id="newCategory">
-                        <option value="comida">Comida</option>
-                        <option value="limpieza">Limpieza</option>
-                        <option value="automovil">Automovil</option>
+                    <select name="fk_category" id="newCategory" required>
+                        <option value="" selected disabled hidden>Category</option>
+                        <option value="1">Food</option>
+                        <option value="2">Automobile</option>
+                        <option value="3">Pharmacy</option>
 
                     </select>
                 </div>
@@ -58,41 +59,41 @@
         <article>
             <table id="dataLog">
                 <thead>
-                    <tr>
-                        <th></th><!-- Checkbox col for edit/del -->
+                    <!-- <tr>
+                        <th></th>
                         <th>Date</th>
                         <th>Concept</th>
                         <th>Amount($)</th>
                         <th>In/Out</th>
                         <th>Category</th>
-                    </tr>
+                    </tr> -->
                 </thead>
-                
+
                 <tbody>
-                    <tr id="r1">
+                    <!-- <tr id="r1" data-id_transaction="1">
                         <td><input type="checkbox" name="transaction" id=""></td>
                         <td>2009-11-01</td>
                         <td>Fries</td>
                         <td>$200</td>
                         <td>Expense</td>
-                        <td>Food</td>
+                        <td data-id_category="este 2">Food</td>
                     </tr>
-                    <tr>
+                    <tr data-id_transaction="2">
                         <td><input type="checkbox" name="transaction" id=""></td>
                         <td>2008-11-01</td>
                         <td>3</td>
                         <td>4</td>
                         <td>5</td>
-                        <td>6</td>
+                        <td data-id_category="2">6</td>
                     </tr>
-                    <tr>
+                    <tr data-id_transaction="3">
                         <td><input type="checkbox" name="transaction" id=""></td>
                         <td>10-11-2001</td>
                         <td>3</td>
                         <td>4</td>
                         <td>5</td>
-                        <td>6</td>
-                    </tr>
+                        <td data-id_category="2">6</td>
+                    </tr> -->
                 </tbody>
             </table>
         </article>
