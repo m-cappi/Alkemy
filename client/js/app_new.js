@@ -1,26 +1,13 @@
 /** @format */
 
-let checkedDataCheckboxes = document.querySelectorAll(
-    "input[type=checkbox][name=transaction]:checked"
-);
-let dataCheckboxes = document.querySelectorAll(
-    "input[type=checkbox][name=transaction]"
-);
 const server = "http://localhost:3000/";
+let categoriesHtmlOptions;
 
 let constructorData = [
     { id: "date", type: "date" },
     { id: "concept", type: "text" },
     { id: "amount", type: "number" },
-    {
-        id: "category",
-        type: "text",
-        categories: [
-            { id_category: 1, categ_name: "Food" },
-            { id_category: 2, categ_name: "Medicine" },
-            { id_category: 3, categ_name: "Automobile" },
-        ],
-    },
+    { id: "category", type: "text" },
     { id: "kind", type: "text" },
 ];
 
@@ -39,8 +26,7 @@ async function wrapper() {
     document.querySelector("#dataLog thead").innerHTML = headerContent;
     document.querySelector("#dataLog tbody").innerHTML = bodyContent;
 
-    categoriesJson = await getData(server, "categories");
-    constructorData[3]["categories"] = categoriesJson;
+    categoriesHandler();
     dataCheckboxesToggle(constructorData);
 }
 
@@ -86,8 +72,25 @@ function constructTableHeader(data) {
             headerContent += `<th>${key}</th>`;
         }
     });
-    headerContent += '</tr>'
-    return headerContent
+    headerContent += "</tr>";
+    return headerContent;
+}
+
+async function categoriesHandler() {
+    getData(server, "categories").then((categoriesJson) => {
+        constructorData[3]["categories"] = categoriesJson;
+        categoriesHtmlOptions = optionsConstructor(categoriesJson);
+        document.querySelector("#newCategory").innerHTML +=
+            categoriesHtmlOptions;
+    });
+}
+
+function optionsConstructor(categories) {
+    let temp = "";
+    categories.forEach((category) => {
+        temp += `<option value="${category["id_category"]}">${category["categ_name"]}</option>`;
+    });
+    return temp;
 }
 
 function dataCheckboxesToggle(constructorDataPack) {
@@ -122,9 +125,10 @@ function rowToInput(row, constructorDataPack) {
             case "category":
                 let categories = constructorDataPack[i - 1]["categories"];
                 let temp = `<select name="category"><option hidden selected value="null">${row.children[i].dataset.server_value}</option>`;
-                categories.forEach((category) => {
-                    temp += `<option value="${category["id_category"]}">${category["categ_name"]}</option>`;
-                });
+                temp += categoriesHtmlOptions; //optionsConstructor(categories)
+                // categories.forEach((category) => {
+                //     temp += `<option value="${category["id_category"]}">${category["categ_name"]}</option>`;
+                // });
                 temp += "</select>";
                 row.children[i].innerHTML = temp;
                 break;
@@ -139,6 +143,7 @@ function rowToInput(row, constructorDataPack) {
     }
 }
 
+
 function rowReverse(row) {
     for (let i = 1; i < row.childElementCount; i++) {
         // row.children[0] is the checkbox
@@ -149,3 +154,13 @@ function rowReverse(row) {
         }
     }
 }
+
+
+
+let btnSubmitTransaction = document.querySelector(
+    "#newEntry input[type=submit]"
+);
+btnSubmitTransaction.addEventListener("click", (event) => {
+    event.preventDefault();
+});
+
