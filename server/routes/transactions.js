@@ -26,6 +26,7 @@ router.post("/", async (req, res, next) => {
 
 router.put("/", async (req, res, next) => {
     //UPDATE
+    console.log(req.body)
     let sentencia = updateTransaction(req.body)
     console.log(sentencia);
     let data = await pool.query(sentencia);

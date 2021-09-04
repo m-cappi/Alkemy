@@ -4,11 +4,11 @@ const server = "http://localhost:3000/";
 let categoriesHtmlOptions; //setting this up as a global variable to prevent unnecesary fetchs
 
 let constructorData = [
-    { id: "date", type: "date" },
+    { id: "creation_date", type: "date" },
     { id: "concept", type: "text" },
     { id: "amount", type: "number" },
-    { id: "category", type: "text" },
-    { id: "kind", type: "text" },
+    { id: "fk_category", type: "text" },
+    { id: "fk_type", type: "text" },
 ];
 
 Date.prototype.toDateInputValue = function () {
@@ -18,8 +18,8 @@ Date.prototype.toDateInputValue = function () {
 };
 document.getElementById("newDate").value = new Date().toDateInputValue();
 
-wrapper();
-async function wrapper() {
+tableBuilder();
+async function tableBuilder() {
     categoriesHandler();
 
     let transactionsJson = await getData(server, "transactions");
@@ -28,6 +28,13 @@ async function wrapper() {
     document.querySelector("#dataLog thead").innerHTML = headerContent;
     document.querySelector("#dataLog tbody").innerHTML = bodyContent;
 
+    dataCheckboxesToggle(constructorData);
+}
+
+async function tableRefresher() {
+    let transactionsJson = await getData(server, "transactions");
+    let bodyContent = await constructTableBody(transactionsJson);
+    document.querySelector("#dataLog tbody").innerHTML = bodyContent;
     dataCheckboxesToggle(constructorData);
 }
 
@@ -113,19 +120,19 @@ function dataCheckboxesToggle(constructorDataPack) {
 function rowToInput(row, constructorDataPack) {
     for (let i = 1; i < row.childElementCount; i++) {
         switch (constructorDataPack[i - 1]["id"]) {
-            case "date":
+            case "creation_date":
                 row.children[
                     i
                 ].innerHTML = `<input type="text" onfocus="(this.type='date')" onblur="(this.value == '' ? this.type='text' : this.type='date')" class="" name="${
                     constructorDataPack[i - 1]["id"]
                 }" placeholder="${row.children[i].dataset.server_value}">`;
                 break;
-            case "kind":
+            case "fk_type":
                 break;
-            case "category":
+            case "fk_category":
                 row.children[
                     i
-                ].innerHTML = `<select name="category"><option hidden selected value="null">${row.children[i].dataset.server_value}</option> ${categoriesHtmlOptions} </select>`;
+                ].innerHTML = `<select name="fk_category"><option hidden selected value="null">${row.children[i].dataset.server_value}</option> ${categoriesHtmlOptions} </select>`;
                 break;
             default:
                 row.children[i].innerHTML = `<input type="${
@@ -155,14 +162,15 @@ let btnSubmitTransaction = document.querySelector(
 
 btnSubmitTransaction.addEventListener("click", (event) => {
     event.preventDefault();
-    pack = transactionPackaging();
+    let pack = transactionPackaging();
     postData(server, 'transactions', [pack]).then((res) => {
         if(res.ok){
             window.alert('success!')
         }
-    })
+    }).then(()=>tableRefresher())
     newEntry.reset()
     document.getElementById("newDate").value = new Date().toDateInputValue();
+    
 });
 
 function transactionPackaging() {
@@ -190,3 +198,58 @@ async function postData(server, router, pack) {
     return data;
 }
 
+let btnEditTable = document.querySelector('#edit')
+
+btnEditTable.addEventListener('click', () => {
+    let package = selectedRowsPackage()
+    console.log(JSON.stringify(package))
+     putData(server, 'transactions', package).then((res) => {
+         if(res.ok){
+             window.alert('success!')
+         }
+     }).then(()=>tableRefresher())
+     
+})
+
+async function putData(server, router, pack){
+    server = server + router
+    let data = await fetch(server, {
+        method: "PUT",
+        body: JSON.stringify(pack),
+        headers: { "Content-Type": "application/json" },
+    }).then((res) => {
+        if (!res.ok) {
+            throw new Error(`An error has occured: ${res.status}`);
+        }
+        return res
+    });
+    return data;
+}
+
+function selectedRowsPackage () {
+    let selected = document.querySelectorAll("input[type=checkbox][name=transaction]:checked")
+    selected = getRows(selected)
+    return compilePackage(selected)
+}
+
+function getRows(children) {
+    let myRows = []
+    children.forEach(child => {
+        myRows.push(child.parentElement.parentElement)
+    });
+    return myRows
+}
+
+function compilePackage(rows){
+    let package =[]
+    rows.forEach(row => {
+        let temp = {id_transaction: row.dataset.id_transaction}
+        for (let i = 1; i < row.childElementCount-1; i++) {
+            temp[row.children[i].children[0].getAttribute('name')] = row.children[i].children[0].value ? row.children[i].children[0].value : row.children[i].dataset.server_value
+        }
+        package.push(temp)
+    });
+    return package
+}
+
+let btnDeleteTable = document.querySelector('#delete')

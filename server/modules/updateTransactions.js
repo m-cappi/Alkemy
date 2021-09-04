@@ -5,28 +5,30 @@ function updateTransaction(json) {
     if (!Array.isArray(json)) {
         json = [json];
     }
+    console.log("estoy en update");
+    console.log(json);
     let concept = "case ";
     let amount = "case ";
     let fk_category = "case ";
     let creation_date = "case ";
     let id_group;
     json.forEach((element) => {
-        if (element?.id) {
+        if (element?.id_transaction) {
             concept += element?.concept
-                ? `when id_transaction=${element["id"]} then IfNull(NullIf('${element["concept"]}', ''), concept) `
-                : `when id_transaction=${element["id"]} then concept `;
+                ? `when id_transaction=${element["id_transaction"]} then IfNull(NullIf('${element["concept"]}', ''), concept) `
+                : `when id_transaction=${element["id_transaction"]} then concept `;
             amount += element?.amount
-                ? `when id_transaction=${element["id"]} then IfNull(NullIf(${element["amount"]}, ''), amount) `
-                : `when id_transaction=${element["id"]} then amount `;
+                ? `when id_transaction=${element["id_transaction"]} then IfNull(NullIf(${element["amount"]}, ''), amount) `
+                : `when id_transaction=${element["id_transaction"]} then amount `;
             fk_category += element?.fk_category
-                ? `when id_transaction=${element["id"]} then IfNull(NullIf(${element["fk_category"]}, ''), fk_category) `
-                : `when id_transaction=${element["id"]} then fk_category `;
+                ? `when id_transaction=${element["id_transaction"]} then IfNull(NullIf(${element["fk_category"]}, ''), fk_category) `
+                : `when id_transaction=${element["id_transaction"]} then fk_category `;
             creation_date += element?.creation_date
-                ? `when id_transaction=${element["id"]} then IfNull(NullIf(${element["creation_date"]}, ''), creation_date) `
-                : `when id_transaction=${element["id"]} then creation_date `;
+                ? `when id_transaction=${element["id_transaction"]} then IfNull(NullIf('${element["creation_date"]}', ''), creation_date) `
+                : `when id_transaction=${element["id_transaction"]} then creation_date `;
             id_group = id_group
-                ? id_group + `, ${element["id"]}`
-                : element["id"];
+                ? id_group + `, ${element["id_transaction"]}`
+                : element["id_transaction"];
         }
     });
     let query = `UPDATE transactions SET concept =(${concept} end), amount =(${amount} end), fk_category =(${fk_category} end), creation_date =(${creation_date} end) where id_transaction in (${id_group})`;
