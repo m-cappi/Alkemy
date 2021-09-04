@@ -16,6 +16,23 @@ router.get("/pagination", async (req, res, next) => {
     
 });
 
+router.get("/income", async function (req, res, next) {
+    //SELECT
+    //select * from view_transactions where type = 'income' and category in (select categ_name from categories where id_category = 3);
+    let data = await pool.query("select * from view_transactions where type = 'income'");
+    res.status(200).json(data);
+    console.log(data);
+});
+
+router.get("/expenses", async function (req, res, next) {
+    //SELECT
+    //http://localhost:3000/transactions/expenses
+
+    let data = await pool.query("select * from view_transactions where type = 'expense'");
+    res.status(200).json(data);
+    console.log(data);
+});
+
 router.get("/", async function (req, res, next) {
     //SELECT
 

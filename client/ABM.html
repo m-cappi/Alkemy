@@ -15,23 +15,24 @@
         <h2>Challenge</h2>
         <nav>
             <a href="./index.html">Home</a>
-            <a href="#">Registro</a>
+            <a href="#">Registry</a>
         </nav>
     </header>
 
     <main>
         <article>
+            <h2>New Transaction</h2>
             <form id="newEntry">
                 <div>
-                    <label for="newConcept">Concepto</label>
+                    <label for="newConcept">Concept</label>
                     <input type="text" name="concept" id="newConcept" required>
                 </div>
                 <div>
-                    <label for="newAmount">Cantidad</label>
+                    <label for="newAmount">Quantity</label>
                     <input type="number" name="amount" id="newAmount" required>
                 </div>
                 <div>
-                    <label for="newDate">Fecha</label>
+                    <label for="newDate">Date</label>
                     <input type="date" name="creation_date" id="newDate" required>
                 </div>
                 <div>
@@ -44,12 +45,9 @@
                         Expense</label>
                 </div>
                 <div>
-                    <label for="newCategory">Categoria</label>
+                    <label for="newCategory">Category</label>
                     <select name="fk_category" id="newCategory" required>
                         <option value="" selected disabled hidden>Category</option>
-                        <!-- <option value="1">Food</option>
-                        <option value="2">Automobile</option>
-                        <option value="3">Pharmacy</option> -->
                     </select>
                 </div>
                 <input type="submit" value="Submit Transaction">
@@ -57,8 +55,9 @@
 
         </article>
         <article>
-            <section><button id="edit">Edit</button><button id="delete">Delete</button></section>
-            <table id="dataLog">
+            <h2>Expenses</h2>
+            <section><button id="expensesEdit">Edit</button><button id="expensesDelete">Delete</button></section>
+            <table id="expensesLog" class="transacciones">
                 <thead>
                     <tr>
                         <th></th>
@@ -69,7 +68,28 @@
                         <th>Type</th>
                     </tr>
                 </thead>
-
+                <tbody>
+                    <tr>
+                        <td id="loading" align="center" colspan="6">
+                            waiting for data...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </article>
+        <article>
+            <h2>Income</h2>
+            <section><button id="incomeEdit">Edit</button><button id="incomeDelete">Delete</button></section>
+            <table id="incomeLog" class="transacciones">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Date</th>
+                        <th>Concept</th>
+                        <th>Amount</th>
+                        <th>Category</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
                 <tbody>
                     <tr>
                         <td id="loading" align="center" colspan="6">
@@ -82,7 +102,7 @@
 
 
 
-    <script src="./js/app_new.js"></script>
+    <script src="./js/app_abm.js"></script>
 </body>
 
 </html>

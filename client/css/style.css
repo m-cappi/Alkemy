@@ -84,21 +84,30 @@ article section {
 #latestLog table, #latestLog tbody, #latestLog thead, #latestLog tr {
     max-width: 100%;
 }
-#dataLog{
+.transacciones{
     overflow-x: auto;
     width: 100%;
     max-width: 100%;
     left: 0;
     font-size: .7em;
 }
-#dataLog td{
+.transacciones td{
     max-width: calc((100vw - 25px) / 5);
 }
-#dataLog input, #dataLog select{
+.transacciones input, .transacciones select{
     max-width: 100%;
 }
-#dataLog td:nth-child(3), #latestLog td:nth-child(2){
+.transacciones td:nth-child(3), #latestLog td:nth-child(2){
     overflow-x: auto;
+}
+#incomeLog td:nth-child(4)::before{
+    content: '$ ';
+}
+#expensesLog td:nth-child(4)::before{
+    content: '$ -';
+}
+#latestLog td:nth-child(3)::before{
+    content:'$ '
 }
 
 @media only screen and (min-width: 720px){
@@ -109,10 +118,13 @@ article section {
         min-width: 100%;
         max-width: 80vw;
     }
-    #dataLog, #latestLog {
+    #newEntry {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    .transacciones, #latestLog {
         font-size: unset;
     }
-    #dataLog td{
+    .transacciones td{
         padding: .3em .5em;
     }
 }
@@ -122,10 +134,10 @@ article section {
         min-width: unset;
         width: 80%;
     }
-    #dataLog, #latestLog {
+    .transacciones, #latestLog {
         font-size: 1.5em;
     }
-    #dataLog td{
+    .transacciones td{
         padding: .3em .5em;
     }
 }

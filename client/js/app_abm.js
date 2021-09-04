@@ -18,23 +18,25 @@ Date.prototype.toDateInputValue = function () {
 };
 document.getElementById("newDate").value = new Date().toDateInputValue();
 
-tableBuilder();
-async function tableBuilder() {
-    categoriesHandler();
+tableBuilder("transactions/expenses", "#expensesLog");
+tableBuilder("transactions/income", "#incomeLog");
+categoriesHandler();
 
-    let transactionsJson = await getData(server, "transactions");
+async function tableBuilder(router, table) {
+
+    let transactionsJson = await getData(server, router);
     let headerContent = constructTableHeader(transactionsJson);
     let bodyContent = constructTableBody(transactionsJson);
-    document.querySelector("#dataLog thead").innerHTML = headerContent;
-    document.querySelector("#dataLog tbody").innerHTML = bodyContent;
+    document.querySelector(`${table} thead`).innerHTML = headerContent;
+    document.querySelector(`${table} tbody`).innerHTML = bodyContent;
 
     dataCheckboxesToggle(constructorData);
 }
 
-async function tableRefresher() {
-    let transactionsJson = await getData(server, "transactions");
+async function tableRefresher(router, table) {
+    let transactionsJson = await getData(server, router);
     let bodyContent = constructTableBody(transactionsJson);
-    document.querySelector("#dataLog tbody").innerHTML = bodyContent;
+    document.querySelector(`${table} tbody`).innerHTML = bodyContent;
     dataCheckboxesToggle(constructorData);
 }
 
@@ -166,7 +168,10 @@ btnSubmitTransaction.addEventListener("click", (event) => {
                 window.alert("success!");
             }
         })
-        .then(() => tableRefresher());
+        .then(() => {
+            tableRefresher("transactions/expenses", "#expensesLog");
+            tableRefresher("transactions/income", "#incomeLog");
+        });
     newEntry.reset();
     document.getElementById("newDate").value = new Date().toDateInputValue();
 });
@@ -196,18 +201,28 @@ async function postData(server, router, pack) {
     return data;
 }
 
-let btnEditTable = document.querySelector("#edit");
+let btnEditExpenses = document.querySelector("#expensesEdit");
 
-btnEditTable.addEventListener("click", () => {
-    let package = selectedRowsPackage();
+btnEditExpenses.addEventListener("click", () => {
+    editWrapper("transactions/expenses", "#expensesLog");
+});
+
+let btnEditIncome = document.querySelector("#incomeEdit");
+
+btnEditIncome.addEventListener("click", () => {
+    editWrapper("transactions/income", "#incomeLog");
+});
+
+function editWrapper(router, table) {
+    let package = selectedRowsPackage(table);
     putData(server, "transactions", package)
         .then((res) => {
             if (res.ok) {
                 window.alert("success!");
             }
         })
-        .then(() => tableRefresher());
-});
+        .then(() => tableRefresher(router, table));
+}
 
 async function putData(server, router, pack) {
     server = server + router;
@@ -224,9 +239,9 @@ async function putData(server, router, pack) {
     return data;
 }
 
-function selectedRowsPackage() {
+function selectedRowsPackage(table) {
     let selected = document.querySelectorAll(
-        "input[type=checkbox][name=transaction]:checked"
+        `${table} input[type=checkbox][name=transaction]:checked`
     );
     selected = getRows(selected);
     return compilePackage(selected);
@@ -255,18 +270,28 @@ function compilePackage(rows) {
     return package;
 }
 
-let btnDeleteTable = document.querySelector("#delete");
+let btnDeleteExpenses = document.querySelector("#expensesDelete");
 
-btnDeleteTable.addEventListener("click", () => {
-    let package = selectedRowsPackage();
+btnDeleteExpenses.addEventListener("click", () => {
+    deleteWrapper("transactions/expenses", "#expensesLog");
+});
+
+let btnDeleteIncome = document.querySelector("#incomeDelete");
+
+btnDeleteIncome.addEventListener("click", () => {
+    deleteWrapper("transactions/income", "#incomeLog");
+});
+
+function deleteWrapper(router, table) {
+    let package = selectedRowsPackage(table);
     deleteData(server, "transactions", package)
         .then((res) => {
             if (res.ok) {
                 window.alert("success!");
             }
         })
-        .then(() => tableRefresher());
-});
+        .then(() => tableRefresher(router, table));
+}
 
 async function deleteData(server, router, package) {
     server = server + router;
