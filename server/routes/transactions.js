@@ -7,12 +7,24 @@ const updateTransaction = require('../modules/updateTransactions')
 const newTransactions = require('../modules/newTransactions')
 const deleteTransactions = require('../modules/deleteTransactions')
 
+router.get("/pagination", async (req, res, next) => {
+    sentencia = `select Date, Concept, Amount, Category, Type from view_transactions ORDER BY Date desc limit ${req.query.pos}, ${req.query.step};`
+    console.log(sentencia)
+    let data = await pool.query(sentencia)
+    res.status(200).json(data);
+    console.log(data);
+    
+});
+
 router.get("/", async function (req, res, next) {
     //SELECT
+
     let data = await pool.query("select * from view_transactions");
     res.status(200).json(data);
     console.log(data);
 });
+
+
 
 router.post("/", async (req, res, next) => {
     //INSERT

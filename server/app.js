@@ -5,12 +5,16 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
 
+//const bodyParser = require('body-parser');//
+//const url = require('url');//
+//const querystring = require('querystring');//
 
 
 var indexRouter = require('./routes/index');
 //var usersRouter = require('./routes/users');
 let transactionsRouter = require('./routes/transactions')
 let categoriesRouter = require('./routes/categories')
+let balanceRouter = require('./routes/balance')
 
 var app = express();
 
@@ -25,11 +29,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.listen(3000)
+//app.use(bodyParser.json());//
+
+
+let server = app.listen(3000, function() {
+  console.log('Server is listening on port 3000')
+});
 app.use('/', indexRouter);
 //app.use('/users', usersRouter);
 app.use('/transactions', transactionsRouter)
 app.use('/categories', categoriesRouter)
+app.use('/balance', balanceRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
