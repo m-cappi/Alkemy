@@ -23,8 +23,8 @@ async function tableBuilder() {
     categoriesHandler();
 
     let transactionsJson = await getData(server, "transactions");
-    let headerContent = await constructTableHeader(transactionsJson);
-    let bodyContent = await constructTableBody(transactionsJson);
+    let headerContent = constructTableHeader(transactionsJson);
+    let bodyContent = constructTableBody(transactionsJson);
     document.querySelector("#dataLog thead").innerHTML = headerContent;
     document.querySelector("#dataLog tbody").innerHTML = bodyContent;
 
@@ -33,7 +33,7 @@ async function tableBuilder() {
 
 async function tableRefresher() {
     let transactionsJson = await getData(server, "transactions");
-    let bodyContent = await constructTableBody(transactionsJson);
+    let bodyContent = constructTableBody(transactionsJson);
     document.querySelector("#dataLog tbody").innerHTML = bodyContent;
     dataCheckboxesToggle(constructorData);
 }
@@ -85,12 +85,9 @@ function constructTableHeader(data) {
 }
 
 async function categoriesHandler() {
-    getData(server, "categories").then((categoriesJson) => {
-        constructorData[3]["categories"] = categoriesJson;
-        categoriesHtmlOptions = optionsConstructor(categoriesJson);
-        document.querySelector("#newCategory").innerHTML +=
-            categoriesHtmlOptions;
-    });
+    let categoriesJson = await getData(server, "categories");
+    categoriesHtmlOptions = optionsConstructor(categoriesJson);
+    document.querySelector("#newCategory").innerHTML += categoriesHtmlOptions;
 }
 
 function optionsConstructor(categories) {

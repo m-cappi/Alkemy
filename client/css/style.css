@@ -60,7 +60,9 @@ main article{
 }
 th, td{
     border-bottom: 1px solid #21212c;
-    padding: .2em;
+    padding: .4em .2em;
+    text-align: center;
+
 }
 tr:nth-child(even) {
     background-color: #f2f2f2;
@@ -73,6 +75,14 @@ article section {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+}
+#latestLog {
+    width: 80%;
+    max-width: 100%;
+    font-size: .9rem;
+}
+#latestLog table, #latestLog tbody, #latestLog thead, #latestLog tr {
+    max-width: 100%;
 }
 #dataLog{
     overflow-x: auto;
@@ -87,6 +97,9 @@ article section {
 #dataLog input, #dataLog select{
     max-width: 100%;
 }
+#dataLog td:nth-child(3), #latestLog td:nth-child(2){
+    overflow-x: auto;
+}
 
 @media only screen and (min-width: 720px){
     main{
@@ -94,10 +107,9 @@ article section {
     }
     main article{
         min-width: 100%;
-        padding: 0 1em;
         max-width: 80vw;
     }
-    #dataLog {
+    #dataLog, #latestLog {
         font-size: unset;
     }
     #dataLog td{
@@ -107,11 +119,10 @@ article section {
 
 @media only screen and (min-width: 1024px){
     main article{
-        padding: 0 3em;
         min-width: unset;
         width: 80%;
     }
-    #dataLog {
+    #dataLog, #latestLog {
         font-size: 1.5em;
     }
     #dataLog td{
