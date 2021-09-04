@@ -88,3 +88,46 @@ ORDER BY a.creation_date DESC;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+INSERT INTO `transaction_types` (`id_types`, `name_type`) VALUES
+(2, 'Expense'),
+(1, 'Income');
+
+INSERT INTO `categories` (`id_category`, `categ_name`) VALUES
+(2, 'Automobile'),
+(1, 'Food'),
+(4, 'Pets'),
+(3, 'Pharmacy'),
+(5, 'Salary'),
+(6, 'Vacations');
+
+INSERT INTO `transactions` (`creation_date`, `concept`, `amount`, `fk_type`, `fk_category`) VALUES
+('2021-06-28', 'Income1', 777, 1, 4),
+('2021-07-01','Income2', 888, 1, 1),
+('2021-07-02','Income3', 999, 1, 2),
+('2021-07-04','Income5', 555, 1, 4),
+('2021-07-05','Income6', 444, 1, 5),
+('2021-07-06','Income7', 333, 1, 6),
+('2021-07-03','Income4', 666, 1, 3),
+('2021-06-28', 'Income8', 777, 1, 4),
+('2021-07-15','Income9', 888, 1, 1),
+('2021-07-16','Income10', 999, 1, 2),
+('2021-07-17','Income11', 555, 1, 4),
+('2021-08-05','Income12', 444, 1, 5),
+('2021-09-06','Income13', 333, 1, 6),
+('2021-05-03','Income14', 666, 1, 3),
+('2021-06-28', 'Expense1', 337, 2, 4),
+('2021-07-01','Expense2', 888, 2, 1),
+('2021-07-02','Expense3', 119, 2, 2),
+('2021-07-04','Expense5', 555, 2, 4),
+('2021-07-05','Expense6', 214, 2, 5),
+('2021-07-06','Expense7', 333, 2, 6),
+('2021-07-03','Expense4', 666, 2, 3),
+('2021-06-28', 'Expense8', 337, 2, 4),
+('2021-07-15','Expense9', 888, 2, 1),
+('2021-07-16','Expense10', 119, 2, 2),
+('2021-07-17','Expense11', 555, 2, 4),
+('2021-08-05','Expense12', 214, 2, 5),
+('2021-09-06','Expense13', 333, 2, 6),
+('2021-05-03','Expense14', 666, 2, 3);
