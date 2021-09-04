@@ -1,7 +1,7 @@
 /** @format */
 
 const server = "http://localhost:3000/";
-let categoriesHtmlOptions;
+let categoriesHtmlOptions; //setting this up as a global variable to prevent unnecesary fetchs
 
 let constructorData = [
     { id: "date", type: "date" },
@@ -20,13 +20,14 @@ document.getElementById("newDate").value = new Date().toDateInputValue();
 
 wrapper();
 async function wrapper() {
+    categoriesHandler();
+
     let transactionsJson = await getData(server, "transactions");
     let headerContent = await constructTableHeader(transactionsJson);
     let bodyContent = await constructTableBody(transactionsJson);
     document.querySelector("#dataLog thead").innerHTML = headerContent;
     document.querySelector("#dataLog tbody").innerHTML = bodyContent;
 
-    categoriesHandler();
     dataCheckboxesToggle(constructorData);
 }
 
@@ -111,7 +112,6 @@ function dataCheckboxesToggle(constructorDataPack) {
 
 function rowToInput(row, constructorDataPack) {
     for (let i = 1; i < row.childElementCount; i++) {
-        //hacer un switch en base a dataKeys
         switch (constructorDataPack[i - 1]["id"]) {
             case "date":
                 row.children[
@@ -123,14 +123,9 @@ function rowToInput(row, constructorDataPack) {
             case "kind":
                 break;
             case "category":
-                let categories = constructorDataPack[i - 1]["categories"];
-                let temp = `<select name="category"><option hidden selected value="null">${row.children[i].dataset.server_value}</option>`;
-                temp += categoriesHtmlOptions; //optionsConstructor(categories)
-                // categories.forEach((category) => {
-                //     temp += `<option value="${category["id_category"]}">${category["categ_name"]}</option>`;
-                // });
-                temp += "</select>";
-                row.children[i].innerHTML = temp;
+                row.children[
+                    i
+                ].innerHTML = `<select name="category"><option hidden selected value="null">${row.children[i].dataset.server_value}</option> ${categoriesHtmlOptions} </select>`;
                 break;
             default:
                 row.children[i].innerHTML = `<input type="${
@@ -143,24 +138,55 @@ function rowToInput(row, constructorDataPack) {
     }
 }
 
-
 function rowReverse(row) {
     for (let i = 1; i < row.childElementCount; i++) {
         // row.children[0] is the checkbox
         if (row.children[i].children[0]?.tagName == "INPUT") {
-            row.children[i].innerHTML = row.children[i].dataset.server_value; //children[0].placeholder;
+            row.children[i].innerHTML = row.children[i].dataset.server_value;
         } else if (row.children[i].children[0]?.tagName == "SELECT") {
-            row.children[i].innerHTML = row.children[i].dataset.server_value; //row.children[i].children[0].children[0].value;
+            row.children[i].innerHTML = row.children[i].dataset.server_value;
         }
     }
 }
 
-
-
 let btnSubmitTransaction = document.querySelector(
     "#newEntry input[type=submit]"
 );
+
 btnSubmitTransaction.addEventListener("click", (event) => {
     event.preventDefault();
+    pack = transactionPackaging();
+    postData(server, 'transactions', [pack]).then((res) => {
+        if(res.ok){
+            window.alert('success!')
+        }
+    })
+    newEntry.reset()
+    document.getElementById("newDate").value = new Date().toDateInputValue();
 });
+
+function transactionPackaging() {
+    return {
+        concept: document.querySelector("#newConcept").value,
+        amount: document.querySelector("#newAmount").value,
+        creation_date: document.querySelector("#newDate").value,
+        fk_category: document.querySelector("#newCategory").value,
+        fk_type: document.querySelector("input[name=fk_type]:checked").value,
+    };
+}
+
+async function postData(server, router, pack) {
+    server = server + router;
+    let data = await fetch(server, {
+        method: "POST",
+        body: JSON.stringify(pack),
+        headers: { "Content-Type": "application/json" },
+    }).then((res) => {
+        if (!res.ok) {
+            throw new Error(`An error has occured: ${res.status}`);
+        }
+        return res
+    });
+    return data;
+}
 

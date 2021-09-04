@@ -3,6 +3,9 @@
 WHERE id IN (value1, value2, ...); */
 
 function deleteTransactions(json){
+    if (!Array.isArray(json)) {
+        json = [json];
+    }
     let idGroup
     json.forEach(element => {
         idGroup = idGroup ? idGroup + `, ${element?.id_transaction}` :`${element?.id_transaction}`

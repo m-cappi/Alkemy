@@ -2,6 +2,9 @@
 //update _table set _col1=(case when _id='id1' then 'val1' when _id='id2' then 'val2' end), _col2 = (case when _id='id1' then num when _id='id2' then num end), _col3 = (case when _id='id1' then 'val1' when _id='id2' then 'val2' end) where _id in ('id1', 'id2')
 //[{"id":1 ,"concept":"upd3" ,"amount":30 ,"fk_category":1 ,"creation_date":"2021-09-28" },{"id":2 ,"concept":"upd2" ,"amount":40 ,"fk_category":2 ,"creation_date":"1991-18-11" }]
 function updateTransaction(json) {
+    if (!Array.isArray(json)) {
+        json = [json];
+    }
     let concept = "case ";
     let amount = "case ";
     let fk_category = "case ";

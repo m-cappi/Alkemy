@@ -37,10 +37,10 @@
                 <div>
 
 
-                    <label for="newIncome"><input type="radio" name="fk_type" id="newIncome" value="1" required>
+                    <label for="newIncome"><input type="radio" name="fk_type" value="1" id="newIncome" required>
                         Income</label>
 
-                    <label for="newOutcome"><input type="radio" name="fk_type" id="newOutcome" value="2" checked>
+                    <label for="newExpense"><input type="radio" name="fk_type" value="2" id="newExpense" checked>
                         Expense</label>
                 </div>
                 <div>
@@ -54,8 +54,10 @@
                 </div>
                 <input type="submit" value="Submit Transaction">
             </form>
+            
         </article>
         <article>
+            <section><button id="edit">Edit</button><button id="delete">Delete</button></section>
             <table id="dataLog">
                 <thead>
                     <!-- <tr>
