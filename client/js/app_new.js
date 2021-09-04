@@ -163,14 +163,15 @@ let btnSubmitTransaction = document.querySelector(
 btnSubmitTransaction.addEventListener("click", (event) => {
     event.preventDefault();
     let pack = transactionPackaging();
-    postData(server, 'transactions', [pack]).then((res) => {
-        if(res.ok){
-            window.alert('success!')
-        }
-    }).then(()=>tableRefresher())
-    newEntry.reset()
+    postData(server, "transactions", [pack])
+        .then((res) => {
+            if (res.ok) {
+                window.alert("success!");
+            }
+        })
+        .then(() => tableRefresher());
+    newEntry.reset();
     document.getElementById("newDate").value = new Date().toDateInputValue();
-    
 });
 
 function transactionPackaging() {
@@ -193,26 +194,26 @@ async function postData(server, router, pack) {
         if (!res.ok) {
             throw new Error(`An error has occured: ${res.status}`);
         }
-        return res
+        return res;
     });
     return data;
 }
 
-let btnEditTable = document.querySelector('#edit')
+let btnEditTable = document.querySelector("#edit");
 
-btnEditTable.addEventListener('click', () => {
-    let package = selectedRowsPackage()
-    console.log(JSON.stringify(package))
-     putData(server, 'transactions', package).then((res) => {
-         if(res.ok){
-             window.alert('success!')
-         }
-     }).then(()=>tableRefresher())
-     
-})
+btnEditTable.addEventListener("click", () => {
+    let package = selectedRowsPackage();
+    putData(server, "transactions", package)
+        .then((res) => {
+            if (res.ok) {
+                window.alert("success!");
+            }
+        })
+        .then(() => tableRefresher());
+});
 
-async function putData(server, router, pack){
-    server = server + router
+async function putData(server, router, pack) {
+    server = server + router;
     let data = await fetch(server, {
         method: "PUT",
         body: JSON.stringify(pack),
@@ -221,35 +222,66 @@ async function putData(server, router, pack){
         if (!res.ok) {
             throw new Error(`An error has occured: ${res.status}`);
         }
-        return res
+        return res;
     });
     return data;
 }
 
-function selectedRowsPackage () {
-    let selected = document.querySelectorAll("input[type=checkbox][name=transaction]:checked")
-    selected = getRows(selected)
-    return compilePackage(selected)
+function selectedRowsPackage() {
+    let selected = document.querySelectorAll(
+        "input[type=checkbox][name=transaction]:checked"
+    );
+    selected = getRows(selected);
+    return compilePackage(selected);
 }
 
 function getRows(children) {
-    let myRows = []
-    children.forEach(child => {
-        myRows.push(child.parentElement.parentElement)
+    let myRows = [];
+    children.forEach((child) => {
+        myRows.push(child.parentElement.parentElement);
     });
-    return myRows
+    return myRows;
 }
 
-function compilePackage(rows){
-    let package =[]
-    rows.forEach(row => {
-        let temp = {id_transaction: row.dataset.id_transaction}
-        for (let i = 1; i < row.childElementCount-1; i++) {
-            temp[row.children[i].children[0].getAttribute('name')] = row.children[i].children[0].value ? row.children[i].children[0].value : row.children[i].dataset.server_value
+function compilePackage(rows) {
+    let package = [];
+    rows.forEach((row) => {
+        let temp = { id_transaction: row.dataset.id_transaction };
+        for (let i = 1; i < row.childElementCount - 1; i++) {
+            temp[row.children[i].children[0].getAttribute("name")] = row
+                .children[i].children[0].value
+                ? row.children[i].children[0].value
+                : row.children[i].dataset.server_value;
         }
-        package.push(temp)
+        package.push(temp);
     });
-    return package
+    return package;
 }
 
-let btnDeleteTable = document.querySelector('#delete')
+let btnDeleteTable = document.querySelector("#delete");
+
+btnDeleteTable.addEventListener("click", () => {
+    let package = selectedRowsPackage();
+    deleteData(server, "transactions", package)
+        .then((res) => {
+            if (res.ok) {
+                window.alert("success!");
+            }
+        })
+        .then(() => tableRefresher());
+});
+
+async function deleteData(server, router, package) {
+    server = server + router;
+    let data = await fetch(server, {
+        method: "DELETE",
+        body: JSON.stringify(package),
+        headers: { "Content-Type": "application/json" },
+    }).then((res) => {
+        if (!res.ok) {
+            throw new Error(`An error has occured: ${res.status}`);
+        }
+        return res;
+    });
+    return data;
+}
