@@ -56,7 +56,16 @@
         </article>
         <article>
             <h2>Expenses</h2>
-            <section><button id="expensesEdit">Edit</button><button id="expensesDelete">Delete</button></section>
+            <section>
+                <button id="expensesEdit">Edit</button>
+                <div class="filter">
+                    <label for="filterExpenses">Filter by</label>
+                    <select name="filterExpenses" id="filterExpenses">
+                        <option value="" checked>Show All</option>
+                    </select>
+                </div>
+                <button id="expensesDelete">Delete</button>
+            </section>
             <table id="expensesLog" class="transacciones">
                 <thead>
                     <tr>
@@ -78,7 +87,15 @@
         </article>
         <article>
             <h2>Income</h2>
-            <section><button id="incomeEdit">Edit</button><button id="incomeDelete">Delete</button></section>
+            <section><button id="incomeEdit">Edit</button>
+                <div class="filter">
+                    <label for="filterIncome">Filter by</label>
+                    <select name="filterIncome" id="filterIncome">
+                        <option value="" checked>Show All</option>
+                    </select>
+                </div>
+                <button id="incomeDelete">Delete</button>
+            </section>
             <table id="incomeLog" class="transacciones">
                 <thead>
                     <tr>

@@ -90,6 +90,8 @@ async function categoriesHandler() {
     let categoriesJson = await getData(server, "categories");
     categoriesHtmlOptions = optionsConstructor(categoriesJson);
     document.querySelector("#newCategory").innerHTML += categoriesHtmlOptions;
+    document.querySelector("#filterExpenses").innerHTML += categoriesHtmlOptions
+    document.querySelector("#filterIncome").innerHTML += categoriesHtmlOptions
 }
 
 function optionsConstructor(categories) {
@@ -307,3 +309,15 @@ async function deleteData(server, router, package) {
     });
     return data;
 }
+
+let filterExpenses = document.querySelector("#filterExpenses")
+
+filterExpenses.addEventListener('change', () => {
+    //console.log(filterExpenses.value)
+    tableRefresher(`transactions/expenses?id_category=${filterExpenses.value}`, "#expensesLog")
+} )
+
+let filterIncome = document.querySelector('#filterIncome')
+filterIncome.addEventListener('change', () => {
+    tableRefresher(`transactions/income?id_category=${filterIncome.value}`, '#incomeLog')
+})
