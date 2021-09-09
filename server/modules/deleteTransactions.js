@@ -2,7 +2,7 @@
 /*DELETE FROM your_table
 WHERE id IN (value1, value2, ...); */
 
-function deleteTransactions(json){
+const deleteTransactions = function (json){
     if (!Array.isArray(json)) {
         json = [json];
     }

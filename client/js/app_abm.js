@@ -3,7 +3,7 @@
 const server = "http://localhost:3000/";
 let categoriesHtmlOptions; //setting this up as a global variable to prevent unnecesary fetchs
 
-let constructorData = [
+const constructorData = [
     { id: "creation_date", type: "date" },
     { id: "concept", type: "text" },
     { id: "amount", type: "number" },
@@ -18,12 +18,7 @@ Date.prototype.toDateInputValue = function () {
 };
 document.getElementById("newDate").value = new Date().toDateInputValue();
 
-tableBuilder("transactions/expenses", "#expensesLog");
-tableBuilder("transactions/income", "#incomeLog");
-categoriesHandler();
-
-async function tableBuilder(router, table) {
-
+const tableBuilder = async function (router, table) {
     let transactionsJson = await getData(server, router);
     let headerContent = constructTableHeader(transactionsJson);
     let bodyContent = constructTableBody(transactionsJson);
@@ -31,16 +26,16 @@ async function tableBuilder(router, table) {
     document.querySelector(`${table} tbody`).innerHTML = bodyContent;
 
     dataCheckboxesToggle(constructorData);
-}
+};
 
-async function tableRefresher(router, table) {
+const tableRefresher = async function (router, table) {
     let transactionsJson = await getData(server, router);
     let bodyContent = constructTableBody(transactionsJson);
     document.querySelector(`${table} tbody`).innerHTML = bodyContent;
     dataCheckboxesToggle(constructorData);
-}
+};
 
-async function getData(server, router) {
+const getData = async function (server, router) {
     server = server + router;
     let data = await fetch(server).then((res) => {
         if (!res.ok) {
@@ -49,9 +44,9 @@ async function getData(server, router) {
         return res.json();
     });
     return data;
-}
+};
 
-function constructTableBody(data) {
+const constructTableBody = function (data) {
     if (!Array.isArray(data)) {
         data = [data];
     }
@@ -59,7 +54,7 @@ function constructTableBody(data) {
     data.forEach((element) => {
         bodyContent += `<tr data-id_transaction="${element["ID"]}" data-id_category="${element["id_category"]}"><td><input type="checkbox" name="transaction" id=""></td>`;
         Object.keys(element).forEach((key) => {
-            if (key == "ID" || key == "id_category") {
+            if (key == "ID" || key == "id_category" || key == "Type") {
             } else if (key == "Date") {
                 let date = element[key].split("T")[0];
                 bodyContent += `<td data-server_value="${date}">${date}</td>`;
@@ -70,39 +65,40 @@ function constructTableBody(data) {
         bodyContent += "</tr>";
     });
     return bodyContent;
-}
+};
 
-function constructTableHeader(data) {
+const constructTableHeader = function (data) {
     if (!Array.isArray(data)) {
         data = [data];
     }
     let headerContent = "<tr><th></th>";
     Object.keys(data[0]).forEach((key) => {
-        if (!(key == "ID" || key == "id_category")) {
+        if (!(key == "ID" || key == "id_category" || key == "Type")) {
             headerContent += `<th>${key}</th>`;
         }
     });
     headerContent += "</tr>";
     return headerContent;
-}
+};
 
-async function categoriesHandler() {
+const categoriesHandler = async function () {
     let categoriesJson = await getData(server, "categories");
     categoriesHtmlOptions = optionsConstructor(categoriesJson);
     document.querySelector("#newCategory").innerHTML += categoriesHtmlOptions;
-    document.querySelector("#filterExpenses").innerHTML += categoriesHtmlOptions
-    document.querySelector("#filterIncome").innerHTML += categoriesHtmlOptions
-}
+    document.querySelector("#filterExpenses").innerHTML +=
+        categoriesHtmlOptions;
+    document.querySelector("#filterIncome").innerHTML += categoriesHtmlOptions;
+};
 
-function optionsConstructor(categories) {
+const optionsConstructor = function (categories) {
     let temp = "";
     categories.forEach((category) => {
         temp += `<option value="${category["id_category"]}">${category["categ_name"]}</option>`;
     });
     return temp;
-}
+};
 
-function dataCheckboxesToggle(constructorDataPack) {
+const dataCheckboxesToggle = function (constructorDataPack) {
     let dataCheckboxes = document.querySelectorAll(
         "input[type=checkbox][name=transaction]"
     );
@@ -116,9 +112,9 @@ function dataCheckboxesToggle(constructorDataPack) {
             }
         });
     });
-}
+};
 
-function rowToInput(row, constructorDataPack) {
+const rowToInput = function (row, constructorDataPack) {
     for (let i = 1; i < row.childElementCount; i++) {
         switch (constructorDataPack[i - 1]["id"]) {
             case "creation_date":
@@ -144,20 +140,18 @@ function rowToInput(row, constructorDataPack) {
                 break;
         }
     }
-}
+};
 
-function rowReverse(row) {
+const rowReverse = function (row) {
     for (let i = 1; i < row.childElementCount; i++) {
         // row.children[0] is the checkbox
-        if (row.children[i].children[0]?.tagName == "INPUT") {
-            row.children[i].innerHTML = row.children[i].dataset.server_value;
-        } else if (row.children[i].children[0]?.tagName == "SELECT") {
+        if (row.children[i].children[0]?.tagName == ("INPUT" || "SELECT")) {
             row.children[i].innerHTML = row.children[i].dataset.server_value;
         }
     }
-}
+};
 
-let btnSubmitTransaction = document.querySelector(
+const btnSubmitTransaction = document.querySelector(
     "#newEntry input[type=submit]"
 );
 
@@ -178,7 +172,7 @@ btnSubmitTransaction.addEventListener("click", (event) => {
     document.getElementById("newDate").value = new Date().toDateInputValue();
 });
 
-function transactionPackaging() {
+const transactionPackaging = function () {
     return {
         concept: document.querySelector("#newConcept").value,
         amount: document.querySelector("#newAmount").value,
@@ -186,9 +180,9 @@ function transactionPackaging() {
         fk_category: document.querySelector("#newCategory").value,
         fk_type: document.querySelector("input[name=fk_type]:checked").value,
     };
-}
+};
 
-async function postData(server, router, pack) {
+const postData = async function (server, router, pack) {
     server = server + router;
     let data = await fetch(server, {
         method: "POST",
@@ -201,21 +195,21 @@ async function postData(server, router, pack) {
         return res;
     });
     return data;
-}
+};
 
-let btnEditExpenses = document.querySelector("#expensesEdit");
+const btnEditExpenses = document.querySelector("#expensesEdit");
 
 btnEditExpenses.addEventListener("click", () => {
     editWrapper("transactions/expenses", "#expensesLog");
 });
 
-let btnEditIncome = document.querySelector("#incomeEdit");
+const btnEditIncome = document.querySelector("#incomeEdit");
 
 btnEditIncome.addEventListener("click", () => {
     editWrapper("transactions/income", "#incomeLog");
 });
 
-function editWrapper(router, table) {
+const editWrapper = function (router, table) {
     let package = selectedRowsPackage(table);
     putData(server, "transactions", package)
         .then((res) => {
@@ -224,9 +218,9 @@ function editWrapper(router, table) {
             }
         })
         .then(() => tableRefresher(router, table));
-}
+};
 
-async function putData(server, router, pack) {
+const putData = async function (server, router, pack) {
     server = server + router;
     let data = await fetch(server, {
         method: "PUT",
@@ -239,25 +233,25 @@ async function putData(server, router, pack) {
         return res;
     });
     return data;
-}
+};
 
-function selectedRowsPackage(table) {
+const selectedRowsPackage = function (table) {
     let selected = document.querySelectorAll(
         `${table} input[type=checkbox][name=transaction]:checked`
     );
     selected = getRows(selected);
     return compilePackage(selected);
-}
+};
 
-function getRows(children) {
+const getRows = function (children) {
     let myRows = [];
     children.forEach((child) => {
         myRows.push(child.parentElement.parentElement);
     });
     return myRows;
-}
+};
 
-function compilePackage(rows) {
+const compilePackage = function (rows) {
     let package = [];
     rows.forEach((row) => {
         let temp = { id_transaction: row.dataset.id_transaction };
@@ -270,21 +264,21 @@ function compilePackage(rows) {
         package.push(temp);
     });
     return package;
-}
+};
 
-let btnDeleteExpenses = document.querySelector("#expensesDelete");
+const btnDeleteExpenses = document.querySelector("#expensesDelete");
 
 btnDeleteExpenses.addEventListener("click", () => {
     deleteWrapper("transactions/expenses", "#expensesLog");
 });
 
-let btnDeleteIncome = document.querySelector("#incomeDelete");
+const btnDeleteIncome = document.querySelector("#incomeDelete");
 
 btnDeleteIncome.addEventListener("click", () => {
     deleteWrapper("transactions/income", "#incomeLog");
 });
 
-function deleteWrapper(router, table) {
+const deleteWrapper = function (router, table) {
     let package = selectedRowsPackage(table);
     deleteData(server, "transactions", package)
         .then((res) => {
@@ -293,9 +287,9 @@ function deleteWrapper(router, table) {
             }
         })
         .then(() => tableRefresher(router, table));
-}
+};
 
-async function deleteData(server, router, package) {
+const deleteData = async function (server, router, package) {
     server = server + router;
     let data = await fetch(server, {
         method: "DELETE",
@@ -308,16 +302,26 @@ async function deleteData(server, router, package) {
         return res;
     });
     return data;
-}
+};
 
-let filterExpenses = document.querySelector("#filterExpenses")
+const filterExpenses = document.querySelector("#filterExpenses");
 
-filterExpenses.addEventListener('change', () => {
+filterExpenses.addEventListener("change", () => {
     //console.log(filterExpenses.value)
-    tableRefresher(`transactions/expenses?id_category=${filterExpenses.value}`, "#expensesLog")
-} )
+    tableRefresher(
+        `transactions/expenses?id_category=${filterExpenses.value}`,
+        "#expensesLog"
+    );
+});
 
-let filterIncome = document.querySelector('#filterIncome')
-filterIncome.addEventListener('change', () => {
-    tableRefresher(`transactions/income?id_category=${filterIncome.value}`, '#incomeLog')
-})
+const filterIncome = document.querySelector("#filterIncome");
+filterIncome.addEventListener("change", () => {
+    tableRefresher(
+        `transactions/income?id_category=${filterIncome.value}`,
+        "#incomeLog"
+    );
+});
+
+tableBuilder("transactions/expenses", "#expensesLog");
+tableBuilder("transactions/income", "#incomeLog");
+categoriesHandler();

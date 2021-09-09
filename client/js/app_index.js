@@ -2,8 +2,8 @@
 
 const server = "http://localhost:3000/";
 //http://localhost:3000/transactions/pagination/?pos=1&step=2
-tableBuilder();
-async function tableBuilder() {
+
+const tableBuilder = async function () {
     let transactionsJson = await getData(
         server,
         "transactions/pagination/?pos=0&step=10"
@@ -14,7 +14,7 @@ async function tableBuilder() {
     document.querySelector("#latestLog tbody").innerHTML = bodyContent;
 }
 
-async function getData(server, router) {
+const getData = async function (server, router) {
     server = server + router;
     let data = await fetch(server).then((res) => {
         if (!res.ok) {
@@ -25,7 +25,7 @@ async function getData(server, router) {
     return data;
 }
 
-function constructTableBody(data) {
+const constructTableBody = function (data) {
     if (!Array.isArray(data)) {
         data = [data];
     }
@@ -46,7 +46,7 @@ function constructTableBody(data) {
     return bodyContent;
 }
 
-function constructTableHeader(data) {
+const constructTableHeader = function (data) {
     if (!Array.isArray(data)) {
         data = [data];
     }
@@ -60,8 +60,10 @@ function constructTableHeader(data) {
     return headerContent;
 }
 
-setBalance();
-async function setBalance() {
+const setBalance = async function () {
     let response = await getData(server, "balance");
     document.querySelector("#balance").innerHTML = response.balance;
 }
+
+tableBuilder();
+setBalance();

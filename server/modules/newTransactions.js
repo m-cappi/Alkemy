@@ -1,5 +1,5 @@
 /** @format */
-function newTransactions(json){
+const newTransactions = function (json){
     if (!Array.isArray(json)) {
         json = [json];
     }
