@@ -76,3 +76,6 @@ typings/
 .fusebox/
 server/myQueries.js
 client/js/TODO.js
+
+# dropping client v1
+client/
