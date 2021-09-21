@@ -12,7 +12,7 @@ const constructorData = [
 ];
 
 Date.prototype.toDateInputValue = function () {
-    var local = new Date(this);
+    let local = new Date(this);
     local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
     return local.toJSON().slice(0, 10);
 };
@@ -52,7 +52,9 @@ const constructTableBody = function (data) {
     }
     let bodyContent = "";
     data.forEach((element) => {
-        bodyContent += `<tr data-id_transaction="${element["ID"]}" data-id_category="${element["id_category"]}"><td><input type="checkbox" name="transaction" id=""></td>`;
+        bodyContent += `<tr data-id_transaction="${element["ID"]}" 
+        data-id_category="${element["id_category"]}">
+        <td><input type="checkbox" name="transaction" id=""></td>`;
         Object.keys(element).forEach((key) => {
             if (key == "ID" || key == "id_category" || key == "Type") {
             } else if (key == "Date") {
@@ -118,25 +120,25 @@ const rowToInput = function (row, constructorDataPack) {
     for (let i = 1; i < row.childElementCount; i++) {
         switch (constructorDataPack[i - 1]["id"]) {
             case "creation_date":
-                row.children[
-                    i
-                ].innerHTML = `<input type="text" onfocus="(this.type='date')" onblur="(this.value == '' ? this.type='text' : this.type='date')" class="" name="${
-                    constructorDataPack[i - 1]["id"]
-                }" placeholder="${row.children[i].dataset.server_value}">`;
+                row.children[i].innerHTML = `<input type="text" 
+                onfocus="(this.type='date')" 
+                onblur="(this.value == '' ? this.type='text' : this.type='date')" 
+                name="${constructorDataPack[i - 1]["id"]}" 
+                placeholder="${row.children[i].dataset.server_value}">`;
                 break;
             case "fk_type":
                 break;
             case "fk_category":
-                row.children[
-                    i
-                ].innerHTML = `<select name="fk_category"><option hidden selected value="null">${row.children[i].dataset.server_value}</option> ${categoriesHtmlOptions} </select>`;
+                row.children[i].innerHTML = `<select name="fk_category">
+                                    <option hidden selected value="null">${row.children[i].dataset.server_value}</option> 
+                                    ${categoriesHtmlOptions} 
+                                </select>`;
                 break;
             default:
-                row.children[i].innerHTML = `<input type="${
-                    constructorDataPack[i - 1]["type"]
-                }" class="" name="${
-                    constructorDataPack[i - 1]["id"]
-                }" placeholder="${row.children[i].dataset.server_value}">`;
+                row.children[i].innerHTML = `<input type="
+                ${constructorDataPack[i - 1]["type"]}" 
+                name="${constructorDataPack[i - 1]["id"]}" 
+                placeholder="${row.children[i].dataset.server_value}">`;
                 break;
         }
     }
@@ -145,7 +147,9 @@ const rowToInput = function (row, constructorDataPack) {
 const rowReverse = function (row) {
     for (let i = 1; i < row.childElementCount; i++) {
         // row.children[0] is the checkbox
-        if (row.children[i].children[0]?.tagName == ("INPUT" || "SELECT")) {
+        if (row.children[i].children[0]?.tagName  == "INPUT") {
+            row.children[i].innerHTML = row.children[i].dataset.server_value;
+        } else if (row.children[i].children[0]?.tagName == "SELECT") {
             row.children[i].innerHTML = row.children[i].dataset.server_value;
         }
     }
@@ -255,7 +259,7 @@ const compilePackage = function (rows) {
     let package = [];
     rows.forEach((row) => {
         let temp = { id_transaction: row.dataset.id_transaction };
-        for (let i = 1; i < row.childElementCount - 1; i++) {
+        for (let i = 1; i < row.childElementCount; i++) {
             temp[row.children[i].children[0].getAttribute("name")] = row
                 .children[i].children[0].value
                 ? row.children[i].children[0].value

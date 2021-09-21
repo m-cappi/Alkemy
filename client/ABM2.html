@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Challenge</title>
+</head>
+
+<body>
+
+    <header>
+        <h2>Challenge</h2>
+        <nav>
+            <a href="./index.html">Home</a>
+            <a href="#">Registry</a>
+        </nav>
+    </header>
+
+    <main>
+        <article>
+            <h2>New Transaction</h2>
+            <form id="newEntry">
+                <div>
+                    <label for="newConcept">Concept</label>
+                    <input type="text" name="concept" id="newConcept" required>
+                </div>
+                <div>
+                    <label for="newAmount">Quantity</label>
+                    <input type="number" name="amount" id="newAmount" required>
+                </div>
+                <div>
+                    <label for="newDate">Date</label>
+                    <input type="date" name="creation_date" id="newDate" required>
+                </div>
+                <div>
+
+
+                    <label for="newIncome"><input type="radio" name="fk_type" value="1" id="newIncome" required>
+                        Income</label>
+
+                    <label for="newExpense"><input type="radio" name="fk_type" value="2" id="newExpense" checked>
+                        Expense</label>
+                </div>
+                <div>
+                    <label for="newCategory">Category</label>
+                    <select name="fk_category" id="newCategory" required>
+                        <option value="" selected disabled hidden>Category</option>
+                    </select>
+                </div>
+                <input type="submit" value="Submit Transaction">
+            </form>
+
+        </article>
+        <article>
+            <h2>Expenses</h2>
+            <section>
+                <button id="expensesEdit">Edit</button>
+                <div class="filter">
+                    <label for="filterExpenses">Filter by</label>
+                    <select name="filterExpenses" id="filterExpenses">
+                        <option value="" checked>Show All</option>
+                    </select>
+                </div>
+                <button id="expensesDelete">Delete</button>
+            </section>
+            <table id="expensesLog" class="transacciones">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Date</th>
+                        <th>Concept</th>
+                        <th>Amount</th>
+                        <th>Category</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="loading" align="center" colspan="6">
+                            waiting for data...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </article>
+        <article>
+            <h2>Income</h2>
+            <section><button id="incomeEdit">Edit</button>
+                <div class="filter">
+                    <label for="filterIncome">Filter by</label>
+                    <select name="filterIncome" id="filterIncome">
+                        <option value="" checked>Show All</option>
+                    </select>
+                </div>
+                <button id="incomeDelete">Delete</button>
+            </section>
+            <table id="incomeLog" class="transacciones">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Date</th>
+                        <th>Concept</th>
+                        <th>Amount</th>
+                        <th>Category</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="loading" align="center" colspan="6">
+                            waiting for data...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </article>
+    </main>
+
+
+    <script src="./js/model.js"></script>
+    <script src="./js/view.js"></script>
+    <script src="./js/controller.js"></script>
+    <script src="./js/app_abm2.js"></script>
+</body>
+
+</html>

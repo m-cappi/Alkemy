@@ -12,7 +12,7 @@ router.get("/pagination", async (req, res, next) => {
     console.log(sentencia)
     let data = await pool.query(sentencia)
     res.status(200).json(data);
-    console.log(data);
+    //console.log(data);
     
 });
 
@@ -24,27 +24,25 @@ router.get("/income", async function (req, res, next) {
     }
     let data = await pool.query(sentence);
     res.status(200).json(data);
-    console.log(data);
+    //console.log(data);
 });
 
 router.get("/expenses", async function (req, res, next) {
     //SELECT
-    //http://localhost:3000/transactions/expenses
     let sentence = "select * from view_transactions where type = 'expense'"
     if(req.query?.id_category){
         sentence += ` and id_category = ${req.query.id_category}`
     }
     let data = await pool.query(sentence);
     res.status(200).json(data);
-    console.log(data);
+    //console.log(data);
 });
 
 router.get("/", async function (req, res, next) {
     //SELECT
-
     let data = await pool.query("select * from view_transactions");
     res.status(200).json(data);
-    console.log(data);
+    //console.log(data);
 });
 
 
@@ -55,19 +53,17 @@ router.post("/", async (req, res, next) => {
     console.log(sentencia)
     let data = await pool.query(sentencia)
     res.status(201).json(data)
-    console.log(data)
+    //console.log(data)
 
 });
 
 router.put("/", async (req, res, next) => {
     //UPDATE
-    console.log(req.body)
     let sentencia = updateTransaction(req.body)
     console.log(sentencia);
     let data = await pool.query(sentencia);
-    //let data = await pool.query(updateTransaction(req.body))
     res.status(201).json(data);
-    console.log(data);
+    //console.log(data);
 });
 
 router.delete("/", async (req, res, next) => {
@@ -76,7 +72,7 @@ router.delete("/", async (req, res, next) => {
     console.log(sentencia)
     let data = await pool.query(sentencia)
     res.status(201).json(data)
-    console.log(data)
+    //console.log(data)
 });
 
 module.exports = router;
