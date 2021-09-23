@@ -1,7 +1,9 @@
 /** @format */
 
-const { DataTypes } = require("sequelize");
+const { DataTypes, Sequelize } = require("sequelize");
 const { sequelize } = require("../config/db");
+const { TransactionType } = require("./TransactionType");
+const { Category } = require("./Category");
 
 const Transaction = sequelize.define(
     "Transaction",
@@ -12,10 +14,18 @@ const Transaction = sequelize.define(
             primaryKey: true,
             autoIncrement: true,
         },
-        creation_date: { type: DataTypes.DATEONLY, allowNull: true },
+        creation_date: {
+            type: DataTypes.DATEONLY,
+            allowNull: true,
+            defaultValue: Sequelize.NOW,
+        },
         concept: { type: DataTypes.STRING(45), allowNull: false },
         amount: { type: DataTypes.INTEGER, allowNull: false },
-        modification_date: { type: DataTypes.DATE, allowNull: true },
+        modification_date: {
+            type: DataTypes.DATE,
+            allowNull: true,
+            defaultValue: null,
+        },
         fk_type: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -29,12 +39,11 @@ const Transaction = sequelize.define(
     },
     {
         tableName: "transactions",
-        timestamps: true,
-        createdAt: "creation_date",
-        updatedAt: "modification_date",
+        timestamps: false,
+        //createdAt: "creation_date",
+        //updatedAt: "modification_date",
     }
 );
-
 //console.log(Transaction === sequelize.models.Transaction);
 
 module.exports = { Transaction };

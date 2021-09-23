@@ -79,3 +79,4 @@ client/js/TODO.js
 
 # dropping client v1
 client/
+server/models/test.js
