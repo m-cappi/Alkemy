@@ -11,11 +11,18 @@ const TransactionType = sequelize.define(
             allowNull: false,
             primaryKey: true,
             autoIncrement: true,
+            validate: { isInt: true },
         },
         name_type: {
             type: DataTypes.STRING(45),
             unique: true,
             allowNull: false,
+            validate: {
+                is: {
+                    args: /^[\w][\w ]{1,43}[\w]$/m,
+                    msg: "Invalid characters. Admits only: a-Z,0-9, ,_",
+                },
+            },
         },
     },
     {

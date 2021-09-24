@@ -1,0 +1,73 @@
+/** @format */
+
+const { asyncHandler } = require("express-async-handler");
+const { sequelize } = require("../config/db");
+const { ViewTransaction } = require("../models/ViewTransaction");
+
+//@DESC Get 10 most recent Transactions
+//@ROUTE /view/last10
+//@METHOD Get
+const getLast10 = async (req, res, next) => {
+    try {
+        const last10 = await ViewTransaction.findAll({ limit: 10 });
+        res.status(201).json(last10);
+    } catch (err) {
+        next(err);
+    }
+};
+
+//@DESC Get all Transactions that were Income
+//@ROUTE /view/income
+//@DESC * filtered by category
+//@ROUTE /view/income?id_category=1
+//@METHOD Get
+const getIncomeList = async (req, res, next) => {
+    try {
+        let filter = { Type: "Income" };
+        if (req.query.id_category) {
+            filter.id_category = req.query.id_category;
+        }
+        const income = await ViewTransaction.findAll({ where: filter });
+        res.status(201).json(income);
+    } catch (err) {
+        next(err);
+    }
+};
+
+//@DESC Get all Transactions that were Expense
+//@ROUTE /view/expense
+//@DESC * filtered by category
+//@ROUTE /view/expense?id_category=1
+//@METHOD Get
+const getExpensesList = async (req, res, next) => {
+    try {
+        let filter = { Type: "Expense" };
+        if (req.query.id_category) {
+            filter.id_category = req.query.id_category;
+        }
+        const expenses = await ViewTransaction.findAll({ where: filter });
+        res.status(201).json(expenses);
+    } catch (err) {
+        next(err);
+    }
+};
+
+//@DESC Get global balance from all Transactions (Income - Expense)
+//@ROUTE /view/balance
+//@METHOD Get
+const getBalance = async (req, res, next) => {
+    try {
+        const sumIncome = await ViewTransaction.sum("Amount", {
+            where: { Type: "Income" },
+        });
+        const sumExpenses = await ViewTransaction.sum("Amount", {
+            where: { Type: "Expense" },
+        });
+        const balance = [{ balance: sumIncome - sumExpenses }];
+        res.status(201).json(balance);
+    } catch (err) {
+        next(err);
+    }
+};
+
+module.exports = { getLast10, getIncomeList, getExpensesList, getBalance };

@@ -13,35 +13,53 @@ const Transaction = sequelize.define(
             allowNull: false,
             primaryKey: true,
             autoIncrement: true,
+            validate: { isInt: true },
         },
         creation_date: {
             type: DataTypes.DATEONLY,
             allowNull: true,
             defaultValue: Sequelize.NOW,
+            validate: { isDate: true },
         },
-        concept: { type: DataTypes.STRING(45), allowNull: false },
-        amount: { type: DataTypes.INTEGER, allowNull: false },
+        concept: {
+            type: DataTypes.STRING(45),
+            allowNull: false,
+            validate: {
+                is: {
+                    args: /^[\w][\w ]{1,43}[\w]$/m,
+                    msg: "Invalid characters. Admits only: a-Z,0-9, ,_",
+                },
+            },
+        },
+        amount: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            validate: { isInt: true },
+        },
         modification_date: {
             type: DataTypes.DATE,
             allowNull: true,
             defaultValue: null,
+            validate: { isDate: true },
         },
         fk_type: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: { model: TransactionType, key: "id_types " },
+            validate: { isInt: true },
         },
         fk_category: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: { model: Category, key: "id_category" },
+            validate: { isInt: true },
         },
     },
     {
         tableName: "transactions",
         timestamps: false,
-        //createdAt: "creation_date",
-        //updatedAt: "modification_date",
+        createdAt: "creation_date",
+        updatedAt: "modification_date",
     }
 );
 //console.log(Transaction === sequelize.models.Transaction);
