@@ -17,4 +17,4 @@ const ViewTransaction = sequelize.define(
     { tableName: "view_transactions", timestamps: false }
 );
 
-module.exports = {ViewTransaction}
+module.exports = { ViewTransaction };

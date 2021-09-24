@@ -5,7 +5,7 @@ const {
     getLast10,
     getIncomeList,
     getExpensesList,
-    getBalance
+    getBalance,
 } = require("../controllers/ViewTransactionController");
 
 const router = express.Router();

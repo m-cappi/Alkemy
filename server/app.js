@@ -1,6 +1,6 @@
 /** @format */
 
-var createError = require("http-errors");
+//var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
@@ -37,7 +37,6 @@ let server = app.listen(3000, function () {
 app.use("/view", viewRouter);
 app.use("/transaction", transactionRouter);
 app.use("/category", categoryRouter);
-
 
 app.use(notFound);
 app.use(errorHandler);

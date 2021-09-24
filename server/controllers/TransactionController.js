@@ -1,5 +1,5 @@
 /** @format */
-const { sequelize } = require("../config/db");
+//const { sequelize } = require("../config/db");
 const { Transaction } = require("../models/Transaction");
 
 //@DESC Insert a single new Transaction
@@ -58,7 +58,7 @@ const updateTransaction = async (req, res, next) => {
             ],
             validate: true,
         }); //TODO validate:true
-        res.status(201).json(update);
+        res.status(201).json({ success: true, data: update });
     } catch (err) {
         next(err);
     }
@@ -75,7 +75,7 @@ const deleteTransaction = async (req, res, next) => {
         const delTransaction = await Transaction.destroy({
             where: { id_transaction: idsToDelete },
         });
-        res.status(201).json(delTransaction);
+        res.status(201).json({ success: true, data: delTransaction });
     } catch (err) {
         next(err);
     }

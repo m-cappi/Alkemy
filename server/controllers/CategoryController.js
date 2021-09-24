@@ -8,7 +8,7 @@ const { Category } = require("../models/Category");
 const getCategory = async (req, res, next) => {
     try {
         const categories = await Category.findAll();
-        res.status(201).json(categories);
+        res.status(201).json({ success: true, data: categories });
     } catch (err) {
         next(err);
     }

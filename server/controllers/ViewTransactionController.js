@@ -1,7 +1,7 @@
 /** @format */
 
-const { asyncHandler } = require("express-async-handler");
-const { sequelize } = require("../config/db");
+//const { asyncHandler } = require("express-async-handler");
+//const { sequelize } = require("../config/db");
 const { ViewTransaction } = require("../models/ViewTransaction");
 
 //@DESC Get 10 most recent Transactions
@@ -10,7 +10,7 @@ const { ViewTransaction } = require("../models/ViewTransaction");
 const getLast10 = async (req, res, next) => {
     try {
         const last10 = await ViewTransaction.findAll({ limit: 10 });
-        res.status(201).json(last10);
+        res.status(201).json({ success: true, data: last10 });
     } catch (err) {
         next(err);
     }
@@ -28,7 +28,7 @@ const getIncomeList = async (req, res, next) => {
             filter.id_category = req.query.id_category;
         }
         const income = await ViewTransaction.findAll({ where: filter });
-        res.status(201).json(income);
+        res.status(201).json({ success: true, data: income });
     } catch (err) {
         next(err);
     }
@@ -46,7 +46,7 @@ const getExpensesList = async (req, res, next) => {
             filter.id_category = req.query.id_category;
         }
         const expenses = await ViewTransaction.findAll({ where: filter });
-        res.status(201).json(expenses);
+        res.status(201).json({ success: true, data: expenses });
     } catch (err) {
         next(err);
     }
@@ -63,7 +63,9 @@ const getBalance = async (req, res, next) => {
         const sumExpenses = await ViewTransaction.sum("Amount", {
             where: { Type: "Expense" },
         });
-        const balance = [{ balance: sumIncome - sumExpenses }];
+        const balance = [
+            { success: true, data: { balance: sumIncome - sumExpenses } },
+        ];
         res.status(201).json(balance);
     } catch (err) {
         next(err);

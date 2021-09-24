@@ -6,6 +6,11 @@ const sequelize = new Sequelize("alkemy", "root", "", {
     host: "localhost",
     dialect: "mysql",
     //logging: (...msg) => console.log(msg),
+    pool: {
+        max: 5,
+        min: 0,
+        idle: 10000,
+    },
 });
 
 //Closing the connection!!
@@ -21,4 +26,4 @@ const tryMe = async () => {
 };
 //tryMe()
 
-module.exports = {sequelize}
+module.exports = { sequelize };
