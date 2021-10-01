@@ -63,9 +63,10 @@ const getBalance = async (req, res, next) => {
         const sumExpenses = await ViewTransaction.sum("Amount", {
             where: { Type: "Expense" },
         });
-        const balance = [
-            { success: true, data: { balance: sumIncome - sumExpenses } },
-        ];
+        const balance = {
+            success: true,
+            data: { balance: sumIncome - sumExpenses },
+        };
         res.status(201).json(balance);
     } catch (err) {
         next(err);
