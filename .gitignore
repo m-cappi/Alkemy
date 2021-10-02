@@ -88,3 +88,12 @@ react-client/src/pages/HomeDemo.jsx
 react-client/src/pages/ExpenseDemo.jsx
 react-client/src/AppDemo.js
 react-client/src/components/TransactionForm.jsx
+
+#dropping legacy server
+server/pool.js
+server/modules/deleteTransactions.js
+server/modules/newTransactions.js
+server/modules/updateTransactions.js
+server/routes/balance.js
+server/routes/categories.js
+server/routes/transactions.js
