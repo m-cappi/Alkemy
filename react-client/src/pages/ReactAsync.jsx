@@ -7,7 +7,7 @@ const loadPlayer2 = async () => {
   if (!res.ok) throw new Error(res.statusText)
   return res.json()
 }
-
+//
 const MyComponent2 = () => {
   const { data, error, isPending } = useAsync({ promiseFn: loadPlayer2})
   if (isPending) return "Loading..."

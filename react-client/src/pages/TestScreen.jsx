@@ -10,7 +10,7 @@ async function loadIncome({ endpoint }) {
     if (!res.ok) throw new Error(res.message);
     return res.json();
 }
-
+//
 const TestScreen = () => {
     console.log("estoy en TestScreen");
     //

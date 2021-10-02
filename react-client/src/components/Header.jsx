@@ -1,10 +1,11 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import SignOut from "./SignOut";
 import TransactionNew from "./TransactionNew";
 
 const Header = () => {
     return (
-        <nav className="navbar navbar-expand-md navbar-light bg-warning ">
+        <nav className="navbar navbar-expand-md navbar-light bg-warning p-3">
             <div className="container-fluid">
                 <h2 className="navbar-brand">Alkemy Challenge</h2>
                 <button
@@ -50,7 +51,7 @@ const Header = () => {
                                 Expense
                             </NavLink>
                         </li>
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                             <NavLink
                                 activeClassName="active text-white"
                                 className="nav-link"
@@ -58,11 +59,11 @@ const Header = () => {
                             >
                                 Test
                             </NavLink>
-                        </li>
+                        </li> */}
                     </ul>
-                    <div>
+                    <div className="d-flex flex-column align-items-start flex-md-row justify-content-md-between align-items-md-center gap-3">
                         <TransactionNew />
-                        {/* Logout */}
+                        <SignOut />
                     </div>
                 </div>
             </div>

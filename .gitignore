@@ -80,3 +80,11 @@ client/js/TODO.js
 # dropping client v1
 client/
 server/models/test.js
+
+#dropping demo screens
+react-client/src/pages/ReactAsync.jsx
+react-client/src/pages/IncomeDemo.jsx
+react-client/src/pages/HomeDemo.jsx
+react-client/src/pages/ExpenseDemo.jsx
+react-client/src/AppDemo.js
+react-client/src/components/TransactionForm.jsx

@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from "react";
+import PropTypes from "prop-types";
 
-const BalanceRow = ({ID, Date, Concept, Amount, id_category, Category, Type}) => {
+const BalanceRow = ({ Date, Concept, Amount, Category, Type }) => {
     return (
         <tr>
             <td>{Date}</td>
@@ -10,12 +10,9 @@ const BalanceRow = ({ID, Date, Concept, Amount, id_category, Category, Type}) =>
             <td>{Category}</td>
             <td>{Type}</td>
         </tr>
-    )
-}
+    );
+};
 
-BalanceRow.propTypes = {
+BalanceRow.propTypes = {};
 
-}
-
-export default BalanceRow
- 
+export default BalanceRow;

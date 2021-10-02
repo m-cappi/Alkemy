@@ -4,6 +4,7 @@ import TransactionForm from '../components/TransactionForm';
 import TransactionTable from '../components/TransactionTable';
 import { Income, Expense, Last10, Balance, Categories } from "../models/demo";
 import connection from "../database/db"
+//
 
 
 const ExpenseScreen = async () => {

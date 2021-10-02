@@ -1,6 +1,7 @@
 import React from 'react'
 import BalanceTable from '../components/BalanceTable'
 import {Income, Expense, Last10, Balance, Categories} from '../models/demo'
+//
 const HomeScreen = () => {
 
     return (

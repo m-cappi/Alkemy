@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-
+//NO SE USA
 const TransactionForm = () => {
     const [show, setShow] = useState(false)
+    const handleShow = () => setShow(!show)
+    console.log("yo uso TransactionForm")
     const form =  (<form id="newEntry">
     <div>
         <label htmlFor="newConcept">Concept</label>
@@ -62,7 +64,7 @@ const TransactionForm = () => {
     </div>
     <input type="submit" defaultValue="Submit Transaction" />
 </form>)
-    const handleShow = () => setShow(!show)
+
     return (
         <article>
             {show ? (<><button onClick={handleShow}>Collapse</button> <br /> {form}</>) : (<button onClick={handleShow}>+New Transaction</button>) }

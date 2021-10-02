@@ -4,20 +4,22 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import CategoryOptions from "./CategoryOptions";
 import { RefreshContext } from "../contexts/RefreshContext";
-import {editTransaction, deleteTransaction} from "../helpers/CRUD"
-
+import { editTransaction, deleteTransaction } from "../helpers/CRUD";
+import today from "../helpers/Date";
 
 const TransactionEdit = (props) => {
     const { ID, Date, Concept, Amount, Category } = props;
     const { refresh, setRefresh } = useContext(RefreshContext);
 
     const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     const editDate = useRef(null);
     const editConcept = useRef(null);
     const editAmount = useRef(null);
     const editCategory = useRef(null);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+
     const handleSubmit = () => {
         const payload = { id_transaction: ID };
         if (editDate.current.value)
@@ -31,6 +33,7 @@ const TransactionEdit = (props) => {
         handleClose();
         setRefresh(!refresh);
     };
+
     const handleDelete = () => {
         const payload = { id_transaction: ID };
         deleteTransaction([payload]);
@@ -40,7 +43,7 @@ const TransactionEdit = (props) => {
 
     return (
         <>
-            <a onClick={handleShow} className="underline">
+            <a onClick={handleShow} className="underline text-truncate">
                 {Concept}
             </a>
 
@@ -78,13 +81,14 @@ const TransactionEdit = (props) => {
                                         type="date"
                                         ref={editDate}
                                         name="creation_date"
+                                        defaultValue={today}
                                         className="form-control "
                                     />
                                 </td>
                             </tr>
                             <tr>
                                 <th>Concept</th>
-                                <td>{Concept}</td>
+                                <td className="text-break">{Concept}</td>
                                 <td>
                                     <input
                                         type="text"

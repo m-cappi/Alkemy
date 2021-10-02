@@ -12,7 +12,6 @@ const TransactionTable = ({ data }) => {
                     <th scope="col">Concept</th>
                     <th scope="col">Amount</th>
                     <th scope="col">Category</th>
-                    {/* <th>edit</th> */}
                 </tr>
             </thead>
             <tbody >

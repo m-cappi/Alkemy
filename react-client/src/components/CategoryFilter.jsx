@@ -20,7 +20,6 @@ const CategoryFilter = () => {
                     className="form-select"
                     name="fk_category"
                     value={{ categoryFilter } || ""}
-                    onTouchEnd={handleChange}
                     onChange={handleChange}
                 >
                     <option value="" hidden>

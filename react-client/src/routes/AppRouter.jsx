@@ -5,9 +5,10 @@ import Header from "../components/Header";
 import ExpenseScreen from "../pages/ExpenseScreen";
 import HomeScreen from "../pages/HomeScreen";
 import IncomeScreen from "../pages/IncomeScreen";
-import TestScreen from "../pages/TestScreen";
+//import TestScreen from "../pages/TestScreen";
 import { CategoryFilterContext } from "../contexts/CategoryFilterContext";
 import { RefreshContext } from "../contexts/RefreshContext";
+import NotFoundScreen from "../pages/NotFoundScreen";
 //import ReactAsync from "../pages/ReactAsync";
 
 const AppRouter = () => {
@@ -19,7 +20,7 @@ const AppRouter = () => {
             value={{ categoryFilter, setCategoryFilter }}
         >
             <RefreshContext.Provider value={{ refresh, setRefresh }}>
-                <div className="min-vw-100 min-vh-100 d-flex flex-column justify-content-between align-content-center  ">
+                <main className="min-vw-100 min-vh-100 d-flex flex-column justify-content-between align-content-center ">
                     <Header />
                     <Switch>
                         <Route exact path="/home" component={HomeScreen} />
@@ -29,11 +30,12 @@ const AppRouter = () => {
                             component={ExpenseScreen}
                         />
                         <Route exact path="/income" component={IncomeScreen} />
-                        <Route exact path="/test" component={TestScreen} />
-                        <Redirect to="/home" />
+                        {/* <Route exact path="/test" component={TestScreen} /> */}
+                        <Route exact path="/404" component={NotFoundScreen} />
+                        <Redirect to="/404" />
                     </Switch>
                     <Footer />
-                </div>
+                </main>
             </RefreshContext.Provider>
         </CategoryFilterContext.Provider>
     );

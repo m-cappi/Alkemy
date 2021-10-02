@@ -1,12 +1,6 @@
 import React from "react";
 import { useAsync } from "react-async";
-import connection from "../database/db";
-
-const loadCategories = async () => {
-    const res = await connection.get("category");
-    if (!res.ok) throw new Error(res.message);
-    return res.json();
-};
+import { loadCategories } from "../helpers/CRUD";
 
 const CategoryOptions = () => {
     const { data, error, isPending } = useAsync({ promiseFn: loadCategories });

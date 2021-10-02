@@ -1,10 +1,9 @@
 import React from "react";
-import Table  from "react-bootstrap/Table";
+import Table from "react-bootstrap/Table";
 import BalanceRow from "./BalanceRow";
 
-const BalanceTable = ({data}) => {
+const BalanceTable = ({ data }) => {
     return (
-
         <Table table table-striped responsive>
             <thead>
                 <tr>
