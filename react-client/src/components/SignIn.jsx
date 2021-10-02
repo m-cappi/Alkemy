@@ -1,19 +1,11 @@
 import React, { useRef } from "react";
-import { useCookies } from "react-cookie";
 import { UserSession } from "../helpers/userSession.js";
-//src\helpers\userSession.js
+
 const SignIn = () => {
-    //const [cookies, setCookie] = useCookies([]);
     const email = useRef(null);
     const password = useRef(null);
+
     const {logIn} = UserSession()
-    // const logIn = (user, password) => {
-    //     if (user && password) {
-    //         //set usuario previo al auth xq me saca
-    //         setCookie("auth", 1, { path: "/" });
-    //     }
-    //     return;
-    // };
 
     const handleSignIn = (e) => {
         e.preventDefault();
