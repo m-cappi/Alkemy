@@ -4,37 +4,38 @@ import CategoryFilter from "../components/CategoryFilter";
 import TransactionTable from "../components/TransactionTable";
 import connection from "../database/db";
 import { CategoryFilterContext } from "../contexts/CategoryFilterContext";
-import { RefreshContext } from "../contexts/RefreshContext";
 
-const loadExpense = async ({ endpoint }) => {
-    const res = await connection.get(endpoint);
+async function loadIncome({ endpoint }) {
+    const res = await connection.get(endpoint); //endpoint
     if (!res.ok) throw new Error(res.message);
     return res.json();
-};
-const ExpenseScreen = () => {
+}
+
+const TestScreen = () => {
+    console.log("estoy en TestScreen");
+    //
     const { categoryFilter } = useContext(CategoryFilterContext);
-    
-    const { refresh, setRefresh } = useContext(RefreshContext);
+    console.log(categoryFilter);
 
     const [endpoint, setendpoint] = useState(
         categoryFilter
-            ? `view/expense?id_category=${categoryFilter}`
-            : "view/expense"
+            ? `view/income?id_category=${categoryFilter}`
+            : "view/income"
     );
+    console.log(endpoint);
 
     const { data, error, isPending } = useAsync({
-        promiseFn: loadExpense,
+        promiseFn: loadIncome,
         endpoint,
-        watch: refresh,
+        watch: endpoint,
     });
 
     useEffect(() => {
         setendpoint(
             categoryFilter
-                ? `view/expense?id_category=${categoryFilter}`
-                : "view/expense"
+                ? `view/income?id_category=${categoryFilter}`
+                : "view/income"
         );
-        setRefresh(!refresh);
     }, [categoryFilter]);
 
     if (isPending) return "Loading...";
@@ -42,7 +43,7 @@ const ExpenseScreen = () => {
     if (data)
         return (
             <div className="p-2 px-md-5 align-self-stretch text-center">
-                <h1>Expense Screen</h1>
+                <h1>Income Screen</h1>
 
                 <CategoryFilter />
                 <TransactionTable data={data.data} />
@@ -50,4 +51,4 @@ const ExpenseScreen = () => {
         );
 };
 
-export default ExpenseScreen;
+export default TestScreen;

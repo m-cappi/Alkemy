@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import AppRouter from './AppRouter'
 
 const IndexRouter = () => {
+    
     //PublicRouter & PrivateRouter here!
     return (
         <>
@@ -10,7 +11,7 @@ const IndexRouter = () => {
             <Switch>
                 {/* PublicRouter -> AuthRouter */}
                 {/* PrivateRouter -> AppRouter */}
-                <Route path="/" component={AppRouter}/>
+                <Route path="/"  component={AppRouter}/>
             </Switch>
         </Router>
         </>

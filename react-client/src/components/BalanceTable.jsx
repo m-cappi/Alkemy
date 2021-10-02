@@ -1,10 +1,8 @@
 import React from "react";
 import Table  from "react-bootstrap/Table";
-import { Income, Expense, Last10, Balance, Categories } from "../models/demo";
 import BalanceRow from "./BalanceRow";
 
-const BalanceTable = () => {
-    const data = Last10.data;
+const BalanceTable = ({data}) => {
     return (
 
         <Table table table-striped responsive>

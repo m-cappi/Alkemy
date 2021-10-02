@@ -1,5 +1,3 @@
-/** @format */
-
 //const { asyncHandler } = require("express-async-handler");
 //const { sequelize } = require("../config/db");
 const { ViewTransaction } = require("../models/ViewTransaction");
@@ -10,7 +8,7 @@ const { ViewTransaction } = require("../models/ViewTransaction");
 const getLast10 = async (req, res, next) => {
     try {
         const last10 = await ViewTransaction.findAll({ limit: 10 });
-        res.status(201).json({ success: true, data: last10 });
+        res.status(200).json({ success: true, data: last10 });
     } catch (err) {
         next(err);
     }
@@ -28,7 +26,7 @@ const getIncomeList = async (req, res, next) => {
             filter.id_category = req.query.id_category;
         }
         const income = await ViewTransaction.findAll({ where: filter });
-        res.status(201).json({ success: true, data: income });
+        res.status(200).json({ success: true, data: income });
     } catch (err) {
         next(err);
     }
@@ -46,7 +44,7 @@ const getExpensesList = async (req, res, next) => {
             filter.id_category = req.query.id_category;
         }
         const expenses = await ViewTransaction.findAll({ where: filter });
-        res.status(201).json({ success: true, data: expenses });
+        res.status(200).json({ success: true, data: expenses });
     } catch (err) {
         next(err);
     }
@@ -67,7 +65,7 @@ const getBalance = async (req, res, next) => {
             success: true,
             data: { balance: sumIncome - sumExpenses },
         };
-        res.status(201).json(balance);
+        res.status(200).json(balance);
     } catch (err) {
         next(err);
     }

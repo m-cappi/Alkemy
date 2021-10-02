@@ -50,6 +50,15 @@ const Header = () => {
                                 Expense
                             </NavLink>
                         </li>
+                        <li className="nav-item">
+                            <NavLink
+                                activeClassName="active text-white"
+                                className="nav-link"
+                                to="/test"
+                            >
+                                Test
+                            </NavLink>
+                        </li>
                     </ul>
                     <div>
                         <TransactionNew />

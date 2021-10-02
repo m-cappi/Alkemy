@@ -28,8 +28,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-let server = app.listen(3000, function () {
-    console.log("Server is listening on port 3000");
+let server = app.listen(3005, function () {
+    console.log("Server is listening on port 3005");
 });
 //app.use("/transactions", transactionsRouter);
 //app.use("/categories", categoriesRouter);

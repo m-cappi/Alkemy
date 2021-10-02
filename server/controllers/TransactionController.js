@@ -1,4 +1,3 @@
-/** @format */
 //const { sequelize } = require("../config/db");
 const { Transaction } = require("../models/Transaction");
 
@@ -8,7 +7,7 @@ const { Transaction } = require("../models/Transaction");
 const insertTransaction = async (req, res, next) => {
     //console.log(req.body)
     try {
-        const data = req.body[0];
+        const data = req.body.data[0];
         const transaction = await Transaction.create(
             {
                 creation_date: data.creation_date,
@@ -39,26 +38,16 @@ const insertTransaction = async (req, res, next) => {
 //@ROUTE /transaction
 //@METHOD Put
 const updateTransaction = async (req, res, next) => {
-    //console.log(req.body)
+    // console.log(req.body.data);
     try {
-        const update = await Transaction.bulkCreate(req.body, {
-            updateOnDuplicate: [
-                "concept",
-                "creation_date",
-                "amount",
-                "fk_category",
-            ],
-            fields: [
-                "id_transaction",
-                "concept",
-                "creation_date",
-                "amount",
-                "fk_category",
-                "fk_type",
-            ],
-            validate: true,
-        }); //TODO validate:true
-        res.status(201).json({ success: true, data: update });
+        const { concept, creation_date, amount, fk_category, id_transaction } =
+            req.body.data;
+        const update = await Transaction.update(
+            { concept, creation_date, amount, fk_category },
+            { where: { id_transaction: id_transaction }, validate: true }
+        );
+        // console.log(update);
+        res.status(200).json({ success: true, data: update });
     } catch (err) {
         next(err);
     }
@@ -69,13 +58,13 @@ const updateTransaction = async (req, res, next) => {
 //@METHOD Delete
 const deleteTransaction = async (req, res, next) => {
     try {
-        const idsToDelete = req.body
+        const idsToDelete = req.body.data
             .map((obj) => parseInt(obj.id_transaction))
             .filter(Number);
         const delTransaction = await Transaction.destroy({
             where: { id_transaction: idsToDelete },
         });
-        res.status(201).json({ success: true, data: delTransaction });
+        res.status(204).json({ success: true, data: delTransaction });
     } catch (err) {
         next(err);
     }

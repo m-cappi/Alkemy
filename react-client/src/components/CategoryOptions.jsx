@@ -1,17 +1,27 @@
-import React from 'react'
-import { Categories } from "../models/demo";
+import React from "react";
+import { useAsync } from "react-async";
+import connection from "../database/db";
 
+const loadCategories = async () => {
+    const res = await connection.get("category");
+    if (!res.ok) throw new Error(res.message);
+    return res.json();
+};
 
-//Categories
 const CategoryOptions = () => {
-    const categories = Categories.data
-    return (
-        <>
-            {categories.map((categ)=>(<option key={categ.id_category} value={categ.id_category}>
-                                            {categ.categ_name}
-                                        </option>))}
-        </>
-    )
-}
+    const { data, error, isPending } = useAsync({ promiseFn: loadCategories });
+    if (isPending) return "Loading...";
+    if (error) return `Something went wrong: ${error.message}`;
+    if (data)
+        return (
+            <>
+                {data.data.map((categ) => (
+                    <option key={categ.id_category} value={categ.id_category}>
+                        {categ.id_category}-{categ.categ_name}
+                    </option>
+                ))}
+            </>
+        );
+};
 
-export default React.memo(CategoryOptions)
+export default React.memo(CategoryOptions);

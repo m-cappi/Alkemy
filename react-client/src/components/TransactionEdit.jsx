@@ -1,17 +1,15 @@
-import React, { useRef, useState } from "react";
-import {
-    CloseButton,
-    Form,
-    FormControl,
-    InputGroup,
-    Table,
-} from "react-bootstrap";
+import React, { useContext, useRef, useState } from "react";
+import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import CategoryOptions from "./CategoryOptions";
+import { RefreshContext } from "../contexts/RefreshContext";
+import {editTransaction, deleteTransaction} from "../helpers/CRUD"
+
 
 const TransactionEdit = (props) => {
-    const { ID, Date, Concept, Amount, id_category, Category, Typ } = props;
+    const { ID, Date, Concept, Amount, Category } = props;
+    const { refresh, setRefresh } = useContext(RefreshContext);
 
     const [show, setShow] = useState(false);
     const editDate = useRef(null);
@@ -28,12 +26,16 @@ const TransactionEdit = (props) => {
             payload.concept = editConcept.current.value;
         if (editAmount.current.value) payload.amount = editAmount.current.value;
         if (editCategory.current.value)
-            payload.fk_category = editCategory.current.value;
-        console.log(payload);
+            payload.fk_category = parseInt(editCategory.current.value);
+        editTransaction(payload);
+        handleClose();
+        setRefresh(!refresh);
     };
     const handleDelete = () => {
         const payload = { id_transaction: ID };
-        console.log(payload);
+        deleteTransaction([payload]);
+        handleClose();
+        setRefresh(!refresh);
     };
 
     return (
@@ -55,8 +57,6 @@ const TransactionEdit = (props) => {
                     <button
                         type="button"
                         className="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
                         onClick={handleClose}
                     />
                 </div>

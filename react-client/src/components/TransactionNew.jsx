@@ -1,5 +1,14 @@
 import React, { useRef } from "react";
 import CategoryOptions from "./CategoryOptions";
+import connection from "../database/db";
+
+
+const submitTransaction = async (payload) => {
+    const res = await connection.post("transaction", {data:payload})
+    if (!res.ok) throw new Error(res.message);
+    else console.log(res)
+    return res.json();
+}
 
 const TransactionNew = () => {
     const newDate = useRef(null);
@@ -16,6 +25,7 @@ const TransactionNew = () => {
             fk_type: e.target.querySelector("input[name=fk_type]:checked")
                 .value,
         };
+        submitTransaction([payload])
         console.log(payload);
     };
 
