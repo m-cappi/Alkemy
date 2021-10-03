@@ -1,15 +1,11 @@
 import BalanceTable from "../components/BalanceTable";
 import { useAsync } from "react-async";
-import connection from "../database/db";
 import BalanceNum from "../components/BalanceNum";
 import { RefreshContext } from "../contexts/RefreshContext";
 import { useContext } from "react";
+import {loadTable} from "../helpers/CRUD";
+import Loading from "../components/Loading";
 
-const loadTable = async () => {
-    const res = await connection.get("view/last10");
-    if (!res.ok) throw new Error(res.message);
-    return res.json();
-};
 
 const HomeScreen = () => {
     const { refresh } = useContext(RefreshContext);
@@ -19,7 +15,7 @@ const HomeScreen = () => {
         watch: refresh,
     });
 
-    if (isPending) return "Loading...";
+    if (isPending) return <Loading />;
     if (error) return `Something went wrong:${error.message}`;
     if (data)
         return (

@@ -4,6 +4,7 @@ import CategoryFilter from "../components/CategoryFilter";
 import TransactionTable from "../components/TransactionTable";
 import connection from "../database/db";
 import { CategoryFilterContext } from "../contexts/CategoryFilterContext";
+import Loading from "../components/Loading";
 
 async function loadIncome({ endpoint }) {
     const res = await connection.get(endpoint); //endpoint
@@ -38,6 +39,7 @@ const TestScreen = () => {
         );
     }, [categoryFilter]);
 
+    return <Loading />
     if (isPending) return "Loading...";
     if (error) return `Something went wrong: ${error.message}`;
     if (data)

@@ -13,6 +13,12 @@ const BalanceRow = ({ Date, Concept, Amount, Category, Type }) => {
     );
 };
 
-BalanceRow.propTypes = {};
+BalanceRow.propTypes = {
+    Date:PropTypes.string,
+    Concept:PropTypes.string,
+    Amount:PropTypes.number,
+    Category:PropTypes.string,
+    Type:PropTypes.string
+};
 
 export default BalanceRow;

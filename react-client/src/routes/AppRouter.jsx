@@ -9,7 +9,6 @@ import IncomeScreen from "../pages/IncomeScreen";
 import { CategoryFilterContext } from "../contexts/CategoryFilterContext";
 import { RefreshContext } from "../contexts/RefreshContext";
 import NotFoundScreen from "../pages/NotFoundScreen";
-//import ReactAsync from "../pages/ReactAsync";
 
 const AppRouter = () => {
     const [categoryFilter, setCategoryFilter] = useState(null);

@@ -1,25 +1,36 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext, useState } from "react";
 import CategoryOptions from "./CategoryOptions";
-import today from "../helpers/Date"
-import {submitTransaction} from "../helpers/CRUD"
+import today from "../helpers/Date";
+import { submitTransaction } from "../helpers/CRUD";
+import { RefreshContext } from "../contexts/RefreshContext";
 
 const TransactionNew = () => {
+    const { refresh, setRefresh } = useContext(RefreshContext);
+    const [error, setError] = useState(null);
     const newDate = useRef(null);
     const newConcept = useRef(null);
     const newAmount = useRef(null);
     const newCategory = useRef(null);
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const payload = {
             creation_date: newDate.current.value,
             concept: newConcept.current.value,
-            amount: newAmount.current.value,
+            amount: parseInt(newAmount.current.value),
             fk_category: newCategory.current.value,
             fk_type: e.target.querySelector("input[name=fk_type]:checked")
                 .value,
         };
-        submitTransaction([payload])
         console.log(payload);
+        const foo = await submitTransaction(payload)
+            .then(() => {
+                setError(null);
+                setRefresh(!refresh);
+            })
+            .catch((err) => {
+                setError(true);
+            });
+        return;
     };
 
     return (
@@ -59,6 +70,11 @@ const TransactionNew = () => {
                                 aria-label="Close"
                             />
                         </div>
+                        {error && (
+                            <div className="alert alert-danger" role="alert">
+                                Ups! Something went wrong
+                            </div>
+                        )}
                         <form id="newEntry" onSubmit={handleSubmit}>
                             <div className="modal-body">
                                 <div>
@@ -90,6 +106,7 @@ const TransactionNew = () => {
                                         name="amount"
                                         ref={newAmount}
                                         id="newAmount"
+                                        step="0"
                                         required
                                     />
                                 </div>

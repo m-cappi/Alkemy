@@ -1,22 +1,74 @@
-//import React from "react";
+import connection from "../database/db";
 import { useCookies } from "react-cookie";
 //import { UserSession } from "../helpers/userSession.js";
 
 export const UserSession = () => {
     const [cookies, setCookie] = useCookies([]);
-    
-    const logIn = (user, password) => {
-        if (user && password) {
-            //set usuario previo al auth xq me saca
-            setCookie("auth", 1, { path: "/" });
-        }
+
+    const registerCookies = (params) => {
+        const { token, email, name, is_admin } = params;
+        setCookie("token", token, { path: "/" });
+        setCookie("email", email, { path: "/" });
+        setCookie("name", name, { path: "/" });
+        setCookie("is_admin", is_admin, { path: "/" });
+        if (token) setCookie("auth", 1, { path: "/" });
         return;
     };
 
-    const logOut = () => {
+    const unregisterCookies = () => {
+        //??
+        setCookie("token", null, { path: "/" });
+        setCookie("name", null, { path: "/" });
+        setCookie("email", null, { path: "/" });
+        setCookie("is_admin", null, { path: "/" });
         setCookie("auth", 0, { path: "/" });
         return;
     };
-    return {logIn, logOut };
-};
 
+    const logIn = async (email, password) => {
+        const body = { data: { email: email, password: password } };
+        const res = await connection.post("auth/login", body);
+        if (!res.success) {
+            console.log(res);
+            throw new Error(res.message);
+        } //else console.log(res);
+        registerCookies(res.data);
+        return res;
+    };
+
+    const logOut = () => {
+        unregisterCookies();
+        return;
+    };
+
+    const register = async (email, password, name) => {
+        const body = {
+            data: { email: email, password: password, full_name: name },
+        };
+        const res = await connection.post("auth/register", body);
+        if (!res.success) {
+            console.log(res);
+            throw new Error(res.message);
+        } //else console.log(res);
+        registerCookies(res.data);
+        return res;
+    };
+    const register2 = async (email, password, name) => {
+        const body = {
+            data: { email: email, password: password, full_name: name },
+        };
+        const response = connection
+            .post("auth/register", body)
+            .then((res) => {
+                if (!res.ok) {
+                    console.log(res.json());
+                    //console.log('estoy lanzando un error')
+                    throw new Error(res);
+                }
+                return res.json();
+            })
+            .then((res) => registerCookies(res.data));
+        return response;
+    };
+    return { logIn, logOut, register };
+};

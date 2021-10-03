@@ -97,3 +97,7 @@ server/modules/updateTransactions.js
 server/routes/balance.js
 server/routes/categories.js
 server/routes/transactions.js
+react-client/src/helpers/UseAuth.js
+server/test/controller.js
+server/test/protect.js
+server/test/route.js

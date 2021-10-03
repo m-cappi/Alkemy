@@ -10,6 +10,7 @@ import today from "../helpers/Date";
 const TransactionEdit = (props) => {
     const { ID, Date, Concept, Amount, Category } = props;
     const { refresh, setRefresh } = useContext(RefreshContext);
+    const [error, setError] = useState(null);
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -26,19 +27,32 @@ const TransactionEdit = (props) => {
             payload.creation_date = editDate.current.value;
         if (editConcept.current.value)
             payload.concept = editConcept.current.value;
-        if (editAmount.current.value) payload.amount = editAmount.current.value;
+        if (editAmount.current.value)
+            payload.amount = parseInt(editAmount.current.value);
         if (editCategory.current.value)
             payload.fk_category = parseInt(editCategory.current.value);
-        editTransaction(payload);
-        handleClose();
-        setRefresh(!refresh);
+        editTransaction(payload)
+            .then(() => {
+                setError(null);
+                handleClose();
+                setRefresh(!refresh);
+            })
+            .catch((err) => {
+                setError(true);
+            });
     };
 
     const handleDelete = () => {
         const payload = { id_transaction: ID };
-        deleteTransaction([payload]);
-        handleClose();
-        setRefresh(!refresh);
+        deleteTransaction([payload])
+            .then(() => {
+                setError(null);
+                handleClose();
+                setRefresh(!refresh);
+            })
+            .catch((err) => {
+                setError(true);
+            });
     };
 
     return (
@@ -63,6 +77,11 @@ const TransactionEdit = (props) => {
                         onClick={handleClose}
                     />
                 </div>
+                {error && (
+                    <div className="alert alert-danger" role="alert">
+                        Ups! Something went wrong
+                    </div>
+                )}
                 <Modal.Body>
                     <Table responsive>
                         <thead>
@@ -113,7 +132,7 @@ const TransactionEdit = (props) => {
                                             type="number"
                                             name="amount"
                                             className="form-control "
-                                            step="any"
+                                            step="0"
                                         />
                                     </div>
                                 </td>

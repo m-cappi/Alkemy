@@ -6,9 +6,9 @@ const notFound = async (req, res, next) => {
 
 const errorHandler = (err, req, res, next) => {
     try {
+        console.log("llegue al errorHandler. El error.msg fue:", err.message)
         const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-        res.status(statusCode);
-        res.json({ success: false, message: err.message });
+        res.status(statusCode).json({ success: false, message: err.message });
         return;
     } catch (error) {
         console.log(error);

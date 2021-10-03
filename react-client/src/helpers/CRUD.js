@@ -1,34 +1,57 @@
 import connection from "../database/db";
+import { Cookies } from "react-cookie";
 //import {} from "../helpers/CRUD";
 
+const getToken = () => {
+    const cookie = new Cookies();
+    const token = cookie.get("token");
+    return token && { Authorization: `Bearer ${token}` };
+};
+
 export const editTransaction = async (payload) => {
-    const res = await connection.put("transaction", { data: payload });
-    if (!res.ok) throw new Error(res.message);
-    return res.json();
+    const token = getToken();
+    const head = token ? token : {};
+    return  await connection.put("transaction", { data: payload }, head);
 };
 
 export const deleteTransaction = async (payload) => {
-    const res = await connection.delete("transaction", { data: payload });
-    if (!res.ok) throw new Error(res.message);
-    return res.json();
+    const token = getToken();
+    const head = token ? token : {};
+    return await connection.delete("transaction", { data: payload }, head);
 };
 
 export const submitTransaction = async (payload) => {
-    const res = await connection.post("transaction", { data: payload });
-    if (!res.ok) throw new Error(res.message);
-    else console.log(res);
-    return res.json();
+    const token = getToken();
+    const head = token ? token : {};
+    return  await connection.post("transaction", { data: payload }, head);
 };
 
 export const loadBalance = async () => {
-    const res = await connection.get("view/balance");
-    if (!res.ok) throw new Error(res.message);
-    return res.json();
+    const token = getToken();
+    const head = token ? token : {};
+    return await connection.get("view/balance", head);
 };
 
 export const loadCategories = async () => {
-    const res = await connection.get("category");
-    if (!res.ok) throw new Error(res.message);
-    return res.json();
+    const token = getToken();
+    const head = token ? token : {};
+    return await connection.get("category", head);
 };
 
+export const loadExpense = async ({ endpoint }) => {
+    const token = getToken();
+    const head = token ? token : {};
+    return await connection.get(endpoint, head);
+};
+
+export const loadIncome = async ({ endpoint }) => {
+    const token = getToken();
+    const head = token ? token : {};
+    return  await connection.get(endpoint, head); //endpoint
+};
+
+export const loadTable = async () => {
+    const token = getToken();
+    const head = token ? token : {};
+    return await connection.get("view/last10", head);
+};

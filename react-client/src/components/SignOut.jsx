@@ -3,9 +3,7 @@ import { UserSession } from "../helpers/userSession.js";
 
 const SignOut = () => {
     const {logOut} = UserSession()
-
     const handleSignOut = () => {
-        console.log("tocaste sign out");
         logOut();
         return;
     };

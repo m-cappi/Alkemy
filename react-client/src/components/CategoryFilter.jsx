@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import PropTypes from "prop-types";
 import CategoryOptions from "./CategoryOptions";
 import { CategoryFilterContext } from "../contexts/CategoryFilterContext";
 
@@ -32,7 +31,5 @@ const CategoryFilter = () => {
         </>
     );
 };
-
-CategoryFilter.propTypes = {};
 
 export default CategoryFilter;

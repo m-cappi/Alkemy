@@ -1,20 +1,42 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { UserSession } from "../helpers/userSession.js";
 
 const SignIn = () => {
     const email = useRef(null);
     const password = useRef(null);
+    const [error, setError] = useState(null);
 
-    const {logIn} = UserSession()
+    const { logIn } = UserSession();
 
-    const handleSignIn = (e) => {
+    const handleSignIn = async (e) => {
         e.preventDefault();
-        logIn(email.current.value, password.current.value);
+        await logIn(email.current.value, password.current.value)
+            .then(() => {
+                setError(null);
+            })
+            .catch((err) => {
+                setError(true);
+            });
+        return;
+    };
+    const handleSignIn2 = (e) => {
+        try {
+            e.preventDefault();
+            logIn(email.current.value, password.current.value);
+        } catch (err) {
+            console.log(err);
+            setError(true);
+        }
         return;
     };
 
     return (
         <div className="d-flex flex-column align-items-center p-5">
+            {error && (
+                <div className="alert alert-danger" role="alert">
+                    Registration invalid!
+                </div>
+            )}
             <form onSubmit={handleSignIn}>
                 <div>
                     <div className="mb-3">

@@ -1,16 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useAsync } from "react-async";
 import CategoryFilter from "../components/CategoryFilter";
+import Loading from "../components/Loading";
 import TransactionTable from "../components/TransactionTable";
-import connection from "../database/db";
 import { CategoryFilterContext } from "../contexts/CategoryFilterContext";
 import { RefreshContext } from "../contexts/RefreshContext";
+import {loadExpense} from "../helpers/CRUD";
 
-const loadExpense = async ({ endpoint }) => {
-    const res = await connection.get(endpoint);
-    if (!res.ok) throw new Error(res.message);
-    return res.json();
-};
 const ExpenseScreen = () => {
     const { categoryFilter } = useContext(CategoryFilterContext);
     
@@ -37,7 +33,7 @@ const ExpenseScreen = () => {
         setRefresh(!refresh);
     }, [categoryFilter]);
 
-    if (isPending) return "Loading...";
+    if (isPending) return <Loading />;
     if (error) return `Something went wrong: ${error.message}`;
     if (data)
         return (
