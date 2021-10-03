@@ -1,5 +1,3 @@
-/** @format */
-
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../config/db");
 const bcrypt = require("bcrypt");
@@ -41,18 +39,18 @@ const User = sequelize.define(
         timestamps: false,
         hooks: {
             beforeCreate: async (user) => {
-             if (user.password) {
-              const salt = await bcrypt.genSaltSync(10, 'a');
-              user.password = bcrypt.hashSync(user.password, salt);
-             }
+                if (user.password) {
+                    const salt = await bcrypt.genSaltSync(10, "a");
+                    user.password = bcrypt.hashSync(user.password, salt);
+                }
             },
-            beforeUpdate:async (user) => {
-             if (user.password) {
-              const salt = await bcrypt.genSaltSync(10, 'a');
-              user.password = bcrypt.hashSync(user.password, salt);
-             }
-            }
-           }
+            beforeUpdate: async (user) => {
+                if (user.password) {
+                    const salt = await bcrypt.genSaltSync(10, "a");
+                    user.password = bcrypt.hashSync(user.password, salt);
+                }
+            },
+        },
     }
 );
 

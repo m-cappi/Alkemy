@@ -14,6 +14,7 @@ const insertTransaction = asyncHandler(async (req, res, next) => {
                 amount: data.amount,
                 fk_type: data.fk_type,
                 fk_category: data.fk_category,
+                owner: req.user.email,
             },
             {
                 validate: true,
@@ -24,6 +25,7 @@ const insertTransaction = asyncHandler(async (req, res, next) => {
                     "amount",
                     "fk_category",
                     "fk_type",
+                    "owner",
                 ],
             }
         );
@@ -43,9 +45,15 @@ const updateTransaction = asyncHandler(async (req, res, next) => {
             req.body.data;
         const update = await Transaction.update(
             { concept, creation_date, amount, fk_category },
-            { where: { id_transaction: id_transaction }, validate: true }
+            {
+                where: {
+                    id_transaction: id_transaction,
+                    owner: req.user.email,
+                },
+                validate: true,
+            }
         );
-        // console.log(update);
+        //console.log({ success: true });
         res.status(200).json({ success: true, data: update });
     } catch (err) {
         next(err);
@@ -61,8 +69,9 @@ const deleteTransaction = asyncHandler(async (req, res, next) => {
             .map((obj) => parseInt(obj.id_transaction))
             .filter(Number);
         const delTransaction = await Transaction.destroy({
-            where: { id_transaction: idsToDelete },
+            where: { id_transaction: idsToDelete, owner: req.user.email },
         });
+        console.log({ success: true, data: delTransaction })
         res.status(204).json({ success: true, data: delTransaction });
     } catch (err) {
         next(err);

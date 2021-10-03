@@ -53,22 +53,6 @@ export const UserSession = () => {
         registerCookies(res.data);
         return res;
     };
-    const register2 = async (email, password, name) => {
-        const body = {
-            data: { email: email, password: password, full_name: name },
-        };
-        const response = connection
-            .post("auth/register", body)
-            .then((res) => {
-                if (!res.ok) {
-                    console.log(res.json());
-                    //console.log('estoy lanzando un error')
-                    throw new Error(res);
-                }
-                return res.json();
-            })
-            .then((res) => registerCookies(res.data));
-        return response;
-    };
+
     return { logIn, logOut, register };
 };

@@ -27,17 +27,17 @@ const TransactionEdit = (props) => {
             payload.creation_date = editDate.current.value;
         if (editConcept.current.value)
             payload.concept = editConcept.current.value;
-        if (editAmount.current.value)
-            payload.amount = parseInt(editAmount.current.value);
+        if (editAmount.current.value) payload.amount = editAmount.current.value;
         if (editCategory.current.value)
             payload.fk_category = parseInt(editCategory.current.value);
         editTransaction(payload)
             .then(() => {
-                setError(null);
+                setError(false);
                 handleClose();
                 setRefresh(!refresh);
             })
             .catch((err) => {
+                console.log(err);
                 setError(true);
             });
     };
@@ -51,6 +51,7 @@ const TransactionEdit = (props) => {
                 setRefresh(!refresh);
             })
             .catch((err) => {
+                console.log(err);
                 setError(true);
             });
     };

@@ -6,7 +6,10 @@ const asyncHandler = require("express-async-handler");
 //@METHOD Get
 const getLast10 = asyncHandler(async (req, res, next) => {
     try {
-        const last10 = await ViewTransaction.findAll({ limit: 10 });
+        const last10 = await ViewTransaction.findAll({
+            limit: 10,
+            where: { Owner: req.user.email },
+        });
         res.status(200).json({ success: true, data: last10 });
     } catch (err) {
         next(err);
@@ -19,11 +22,14 @@ const getLast10 = asyncHandler(async (req, res, next) => {
 //@ROUTE /view/income?id_category=1
 //@METHOD Get
 const getIncomeList = asyncHandler(async (req, res, next) => {
+    console.log("llegue a getIncomeList");
     try {
         let filter = { Type: "Income" };
+        filter.owner = req.user.email;
         if (req.query.id_category) {
             filter.id_category = req.query.id_category;
         }
+        console.log(filter);
         const income = await ViewTransaction.findAll({ where: filter });
         res.status(200).json({ success: true, data: income });
     } catch (err) {
@@ -39,6 +45,7 @@ const getIncomeList = asyncHandler(async (req, res, next) => {
 const getExpensesList = asyncHandler(async (req, res, next) => {
     try {
         let filter = { Type: "Expense" };
+        filter.owner = req.user.email;
         if (req.query.id_category) {
             filter.id_category = req.query.id_category;
         }
@@ -55,14 +62,24 @@ const getExpensesList = asyncHandler(async (req, res, next) => {
 const getBalance = asyncHandler(async (req, res, next) => {
     try {
         const sumIncome = await ViewTransaction.sum("Amount", {
-            where: { Type: "Income" },
+            where: { Type: "Income", Owner: req.user.email },
         });
         const sumExpenses = await ViewTransaction.sum("Amount", {
-            where: { Type: "Expense" },
+            where: { Type: "Expense", Owner: req.user.email },
         });
+
+        let mibal;
+        if (sumIncome && sumExpenses) {
+            mibal = sumIncome - sumExpenses;
+        } else if (sumIncome) {
+            mibal = sumIncome;
+        } else {
+            mibal = 0 - sumExpenses;
+        }
+
         const balance = {
             success: true,
-            data: { balance: sumIncome - sumExpenses },
+            data: { balance: mibal },
         };
         res.status(200).json(balance);
     } catch (err) {

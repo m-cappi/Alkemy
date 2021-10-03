@@ -19,8 +19,10 @@ const ProtectMiddleware = asyncHandler(async (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-        req.user = await User.findByPk(decoded.id);
-
+        const user = await User.findByPk(decoded.id);
+        const {email, full_name, is_admin} = user.dataValues
+        req.user = {email, full_name, is_admin}
+        
         next();
     } catch (error) {
         res.status(401);

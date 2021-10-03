@@ -7,6 +7,7 @@ const ViewTransaction = sequelize.define(
     "ViewTransaction",
     {
         ID: DataTypes.INTEGER,
+        Owner: DataTypes.STRING(45),
         Date: DataTypes.DATEONLY,
         Concept: DataTypes.STRING(45),
         Amount: DataTypes.INTEGER,

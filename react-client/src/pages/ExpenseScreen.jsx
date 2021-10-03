@@ -1,15 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useAsync } from "react-async";
 import CategoryFilter from "../components/CategoryFilter";
+import EmptyTable from "../components/EmptyTable";
 import Loading from "../components/Loading";
 import TransactionTable from "../components/TransactionTable";
 import { CategoryFilterContext } from "../contexts/CategoryFilterContext";
 import { RefreshContext } from "../contexts/RefreshContext";
-import {loadExpense} from "../helpers/CRUD";
+import { loadExpense } from "../helpers/CRUD";
 
 const ExpenseScreen = () => {
     const { categoryFilter } = useContext(CategoryFilterContext);
-    
+
     const { refresh, setRefresh } = useContext(RefreshContext);
 
     const [endpoint, setendpoint] = useState(
@@ -37,12 +38,19 @@ const ExpenseScreen = () => {
     if (error) return `Something went wrong: ${error.message}`;
     if (data)
         return (
-            <div className="p-2 px-md-5 align-self-stretch text-center">
-                <h1>Expense Screen</h1>
-
-                <CategoryFilter />
-                <TransactionTable data={data.data} />
-            </div>
+            <>
+                <div className="p-2 px-md-5 align-self-stretch text-center">
+                    <h1>Expense Screen</h1>
+                    <CategoryFilter />
+                    {Array.isArray(data.data) && data.data.length ? (
+                        <>
+                            <TransactionTable data={data.data} />
+                        </>
+                    ) : (
+                        <EmptyTable />
+                    )}
+                </div>
+            </>
         );
 };
 

@@ -1,9 +1,8 @@
-/** @format */
-
 const { DataTypes, Sequelize } = require("sequelize");
 const { sequelize } = require("../config/db");
 const { TransactionType } = require("./TransactionType");
 const { Category } = require("./Category");
+const { User } = require("./User");
 
 const Transaction = sequelize.define(
     "Transaction",
@@ -34,7 +33,7 @@ const Transaction = sequelize.define(
         amount: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            validate: { isInt: true },
+            validate: { isFloat: true },
         },
         modification_date: {
             type: DataTypes.DATE,
@@ -54,6 +53,12 @@ const Transaction = sequelize.define(
             references: { model: Category, key: "id_category" },
             validate: { isInt: true },
         },
+        owner: {
+            type: DataTypes.STRING(45),
+            allowNull: false,
+            references: { model: User, key: "email" },
+            validate: { isEmail: true },
+        }
     },
     {
         tableName: "transactions",

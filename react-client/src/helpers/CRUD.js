@@ -1,5 +1,6 @@
 import connection from "../database/db";
 import { Cookies } from "react-cookie";
+import { validateTransaction } from "./payloadValidation";
 //import {} from "../helpers/CRUD";
 
 const getToken = () => {
@@ -9,9 +10,14 @@ const getToken = () => {
 };
 
 export const editTransaction = async (payload) => {
+    const validation = validateTransaction(payload, false);
+    if (validation.hasError) {
+        console.log(validation.errors.concept[0]);
+        throw new Error(validation.errors.concept[0]);
+    }
     const token = getToken();
     const head = token ? token : {};
-    return  await connection.put("transaction", { data: payload }, head);
+    return await connection.put("transaction", { data: payload }, head);
 };
 
 export const deleteTransaction = async (payload) => {
@@ -21,9 +27,14 @@ export const deleteTransaction = async (payload) => {
 };
 
 export const submitTransaction = async (payload) => {
+    const validation = validateTransaction(payload, true);
+    if (validation.hasError) {
+        console.log(validation.errors.concept[0]);
+        throw new Error(validation.errors.concept[0]);
+    }
     const token = getToken();
     const head = token ? token : {};
-    return  await connection.post("transaction", { data: payload }, head);
+    return await connection.post("transaction", { data: payload }, head);
 };
 
 export const loadBalance = async () => {
@@ -47,7 +58,7 @@ export const loadExpense = async ({ endpoint }) => {
 export const loadIncome = async ({ endpoint }) => {
     const token = getToken();
     const head = token ? token : {};
-    return  await connection.get(endpoint, head); //endpoint
+    return await connection.get(endpoint, head); //endpoint
 };
 
 export const loadTable = async () => {
