@@ -10,7 +10,7 @@ const transactionSchema = (isRequired = false) => {
                 mycustom: function (value) {
                     return /^[\w][\w ]{1,43}[\w]$/m.test(value)
                         ? true
-                        : "Concept is invalid. Admits only(45): a-Z,0-9, ,_";
+                        : "Concept is invalid. Admits only(3-45): a-Z,0-9, ,_";
                 },
             },
             amount: `${required}number`,
@@ -23,7 +23,7 @@ const transactionSchema = (isRequired = false) => {
             mycustom: function (value) {
                 return /^[\w][\w ]{1,43}[\w]$/m.test(value)
                     ? true
-                    : "Concept is invalid. Admits only(45): a-Z,0-9, ,_";
+                    : "Concept is invalid. Admits only(3-45): a-Z,0-9, ,_";
             },
         },
         amount: `${required}number`,

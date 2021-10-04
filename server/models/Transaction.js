@@ -26,7 +26,7 @@ const Transaction = sequelize.define(
             validate: {
                 is: {
                     args: /^[\w][\w ]{1,43}[\w]$/m,
-                    msg: "Invalid characters. Admits only: a-Z,0-9, ,_",
+                    msg: "Invalid characters. Admits only(3-45): a-Z,0-9, ,_",
                 },
             },
         },

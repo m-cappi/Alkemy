@@ -8,7 +8,7 @@ const TransactionRow = (props) => {
         <>
             <tr>
                 <td>{Date}</td>
-                <td>
+                <td className="text-break text-truncate" style={{maxWidth:"20vw"}}>
                     <TransactionEdit key={ID} {...props} />
                 </td>
                 <td>{Amount}</td>
