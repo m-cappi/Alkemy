@@ -8,7 +8,7 @@ permitir crear y editar ingresos y egresos de dinero, y mostrar un balance resul
 operaciones registradas.
 
 
-## TODO
+## Mejoras a futuro
 - Implementar un view para editar y eliminar el usuario en sesion
 - Implementar una creacion de Categorias personalizadas
 - Implementar grupos de trabajo (?)

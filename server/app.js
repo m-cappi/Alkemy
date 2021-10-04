@@ -12,7 +12,7 @@ const transactionRouter = require("./routes/TransactionRoutes");
 const categoryRouter = require("./routes/CategoryRoutes");
 //const userRouter = require("./routes/UserRoutes");
 const authRouter = require("./routes/AuthRoutes");
-const testRouter = require("./test/route");
+//const testRouter = require("./test/route");
 
 dotenv.config();
 
@@ -38,7 +38,7 @@ app.use("/transaction", transactionRouter);
 app.use("/category", categoryRouter);
 //app.use("/user", userRouter);
 app.use("/auth", authRouter);
-app.use("/test", testRouter);
+//app.use("/test", testRouter);
 
 app.use(notFound);
 app.use(errorHandler);
