@@ -1,4 +1,4 @@
-import connection from "../database/db";
+import connection from "../database/connection";
 import { useCookies } from "react-cookie";
 //import { UserSession } from "../helpers/userSession.js";
 

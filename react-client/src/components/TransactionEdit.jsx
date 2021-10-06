@@ -6,6 +6,7 @@ import CategoryOptions from "./CategoryOptions";
 import { RefreshContext } from "../contexts/RefreshContext";
 import { editTransaction, deleteTransaction } from "../helpers/CRUD";
 import today from "../helpers/Date";
+import ErrorWarning from "./ErrorWarning";
 
 const TransactionEdit = (props) => {
     const { ID, Date, Concept, Amount, Category } = props;
@@ -32,13 +33,13 @@ const TransactionEdit = (props) => {
             payload.fk_category = parseInt(editCategory.current.value);
         editTransaction(payload)
             .then(() => {
-                setError(false);
+                setError(null);
                 handleClose();
                 setRefresh(!refresh);
             })
             .catch((err) => {
                 console.log(err);
-                setError(true);
+                setError(err);
             });
     };
 
@@ -52,7 +53,7 @@ const TransactionEdit = (props) => {
             })
             .catch((err) => {
                 console.log(err);
-                setError(true);
+                setError(err);
             });
     };
 
@@ -78,11 +79,9 @@ const TransactionEdit = (props) => {
                         onClick={handleClose}
                     />
                 </div>
-                {error && (
-                    <div className="alert alert-danger" role="alert">
-                        Ups! Something went wrong
-                    </div>
-                )}
+
+                <ErrorWarning error={error} />
+
                 <Modal.Body>
                     <Table responsive>
                         <thead>

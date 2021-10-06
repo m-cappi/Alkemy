@@ -5,6 +5,7 @@ import CategoryOptions from "./CategoryOptions";
 import today from "../helpers/Date";
 import { submitTransaction } from "../helpers/CRUD";
 import { RefreshContext } from "../contexts/RefreshContext";
+import ErrorWarning from "./ErrorWarning";
 
 const TransactionNew = () => {
     const { refresh, setRefresh } = useContext(RefreshContext);
@@ -72,11 +73,9 @@ const TransactionNew = () => {
                         onClick={handleClose}
                     />
                 </div>
-                {error && (
-                    <div className="alert alert-danger" role="alert">
-                        Ups! Something went wrong
-                    </div>
-                )}
+
+                <ErrorWarning error={error} />
+
                 <form id="newEntry" onSubmit={handleSubmit}>
                     <div className="modal-body">
                         <div>
@@ -132,7 +131,6 @@ const TransactionNew = () => {
                                         name="fk_type"
                                         defaultValue={1}
                                         id="newIncome"
-                                        required
                                     />
                                     Income
                                 </label>
@@ -148,7 +146,7 @@ const TransactionNew = () => {
                                         name="fk_type"
                                         defaultValue={2}
                                         id="newExpense"
-                                        defaultChecked
+                                        required
                                     />
                                     Expense
                                 </label>
@@ -161,6 +159,7 @@ const TransactionNew = () => {
                                 id="newCategory"
                                 ref={newCategory}
                                 defaultValue=""
+                                required
                             >
                                 <option value="" disabled>
                                     Choose a category...

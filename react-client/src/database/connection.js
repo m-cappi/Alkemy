@@ -4,10 +4,11 @@ const urlBase = "http://localhost:3005";
 // en caso de ser asi, retorna la url. en caso contrario, se asume que es un fragmento
 // de path por lo que se concatena con la constante urlBase
 
-const readUrl = (url = "") =>
-    url.startsWith("http://") || url.startsWith("https://")
+const readUrl = (url = "") => {
+    return url.startsWith("http://") || url.startsWith("https://")
         ? url
         : `${urlBase}/${url}`;
+};
 
 const get = async (url = "", headers = {}) => {
     const res = await fetch(readUrl(url), {
@@ -17,11 +18,23 @@ const get = async (url = "", headers = {}) => {
             "Content-Type": "application/json",
             ...headers,
         },
-    }).then((res) => res.json());
+    })
+        .then((res) => {
+            if (!res.ok) {
+                console.log(res);
+                throw new Error(res.message);
+            }
+            return res.json();
+        })
+        .catch((err) => {
+            throw new Error(err);
+        });
+
     if (!res.success) {
         console.log(res);
         throw new Error(res.message);
     } //else console.log(res);
+
     return res;
 };
 
@@ -34,11 +47,23 @@ const post = async (url = "", body = {}, headers = {}) => {
             "Content-Type": "application/json",
             ...headers,
         },
-    }).then((res) => res.json());
+    })
+        .then((res) => {
+            if (!res.ok) {
+                console.log(res);
+                throw new Error(res.message);
+            }
+            return res.json();
+        })
+        .catch((err) => {
+            throw new Error(err);
+        });
+
     if (!res.success) {
         console.log(res);
         throw new Error(res.message);
     } //else console.log(res);
+
     return res;
 };
 
@@ -51,11 +76,23 @@ const put = async (url = "", body = {}, headers = {}) => {
             "Content-Type": "application/json",
             ...headers,
         },
-    }).then((res) => res.json()).catch((err) =>{ throw new Error(err)})
+    })
+        .then((res) => {
+            if (!res.ok) {
+                console.log(res);
+                throw new Error(res.message);
+            }
+            return res.json();
+        })
+        .catch((err) => {
+            throw new Error(err);
+        });
+
     if (!res.success) {
         console.log(res);
         throw new Error(res.message);
     }
+
     return res;
 };
 
@@ -69,16 +106,25 @@ const del = async (url = "", body = {}, headers = {}) => {
             ...headers,
         },
     })
-    if (!res.ok) {
-        console.log(res)
-        throw new Error(res.message);
-    } //else console.log("Este es mi res en db> del> else",res);
+        .then((res) => {
+            if (!res.ok) {
+                console.log(res);
+                throw new Error(res.message);
+            }
+            return res;
+        })
+        .catch((err) => {
+            throw new Error(err);
+        });
+
     return res;
 };
 
-export default {
+const connection = {
     get,
     post,
     put,
     delete: del,
 };
+
+export default connection;

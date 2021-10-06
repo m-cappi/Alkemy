@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useAsync } from "react-async";
 import CategoryFilter from "../components/CategoryFilter";
 import EmptyTable from "../components/EmptyTable";
+import ErrorWarning from "../components/ErrorWarning";
 import Loading from "../components/Loading";
 import TransactionTable from "../components/TransactionTable";
 import { CategoryFilterContext } from "../contexts/CategoryFilterContext";
@@ -35,7 +36,8 @@ const IncomeScreen = () => {
     }, [categoryFilter]);
 
     if (isPending) return <Loading />;
-    if (error) return `Something went wrong: ${error.message}`;
+    if (error) return <ErrorWarning error={error} />;
+
     if (data)
         return (
             <>

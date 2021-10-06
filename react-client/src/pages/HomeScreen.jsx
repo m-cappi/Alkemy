@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { loadTable } from "../helpers/CRUD";
 import Loading from "../components/Loading";
 import EmptyTable from "../components/EmptyTable";
+import ErrorWarning from "../components/ErrorWarning";
 
 const HomeScreen = () => {
     const { refresh } = useContext(RefreshContext);
@@ -16,7 +17,8 @@ const HomeScreen = () => {
     });
 
     if (isPending) return <Loading />;
-    if (error) return `Something went wrong:${error.message}`;
+    if (error) return <ErrorWarning error={error} />;
+
     if (data)
         return (
             <>
