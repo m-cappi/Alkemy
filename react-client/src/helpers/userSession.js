@@ -4,24 +4,25 @@ import { useCookies } from "react-cookie";
 
 export const UserSession = () => {
     const [cookies, setCookie] = useCookies([]);
+    const cookieParams = { path: "/" }
 
     const registerCookies = (params) => {
         const { token, email, name, is_admin } = params;
-        setCookie("token", token, { path: "/" });
-        setCookie("email", email, { path: "/" });
-        setCookie("name", name, { path: "/" });
-        setCookie("is_admin", is_admin, { path: "/" });
-        if (token) setCookie("auth", 1, { path: "/" });
+        setCookie("token", token, cookieParams);
+        setCookie("email", email, cookieParams);
+        setCookie("name", name, cookieParams);
+        setCookie("is_admin", is_admin, cookieParams);
+        if (token) setCookie("auth", 1, cookieParams);
         return;
     };
 
     const unregisterCookies = () => {
         //??
-        setCookie("token", null, { path: "/" });
-        setCookie("name", null, { path: "/" });
-        setCookie("email", null, { path: "/" });
-        setCookie("is_admin", null, { path: "/" });
-        setCookie("auth", 0, { path: "/" });
+        setCookie("token", null, cookieParams);
+        setCookie("name", null, cookieParams);
+        setCookie("email", null, cookieParams);
+        setCookie("is_admin", null, cookieParams);
+        setCookie("auth", 0, cookieParams);
         return;
     };
 
