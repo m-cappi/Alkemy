@@ -87,72 +87,93 @@ const TransactionEdit = (props) => {
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>Current</th>
-                                <th>Edit for</th>
+                                <th colSpan="2" className="row gap-1">
+                                    <div className="col-12 col-md">
+                                        Current value
+                                    </div>
+                                    <div className="col-12 col-md">
+                                        Edit for
+                                    </div>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <th>Date</th>
-                                <td>{Date}</td>
-                                <td className="">
-                                    <input
-                                        type="date"
-                                        ref={editDate}
-                                        name="creation_date"
-                                        defaultValue={today}
-                                        className="form-control "
-                                    />
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Concept</th>
-                                <td className="text-break">{Concept}</td>
-                                <td>
-                                    <input
-                                        type="text"
-                                        ref={editConcept}
-                                        name="concept"
-                                        className="form-control "
-                                    />
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Amount</th>
-                                <td>{Amount}</td>
-                                <td>
-                                    <div className="input-group my-2 ">
-                                        <div className="input-group-prepend">
-                                            <div className="input-group-text">
-                                                $
-                                            </div>
-                                        </div>
+                                <td colSpan="2" className="row gap-1">
+                                    <div className="col-12 col-md">{Date}</div>
+                                    <div className="col-12 col-md-7">
                                         <input
-                                            ref={editAmount}
-                                            type="number"
-                                            name="amount"
+                                            type="date"
+                                            ref={editDate}
+                                            name="creation_date"
+                                            defaultValue={today}
                                             className="form-control "
-                                            step="0"
                                         />
                                     </div>
                                 </td>
                             </tr>
                             <tr>
+                                <th>Concept</th>
+                                <td colSpan="2" className="row gap-1">
+                                    <div className="col-12 col-md text-break">
+                                        {Concept}
+                                    </div>
+                                    <div className="col-12 col-md-7">
+                                        <input
+                                            type="text"
+                                            ref={editConcept}
+                                            name="concept"
+                                            className="form-control "
+                                        />
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>Amount</th>
+                                <td colSpan="2" className="row gap-1">
+                                    <div className="col-12 col-md text-break">
+                                        {Amount}
+                                    </div>
+                                    <div className=" col-12 col-md-7">
+                                        <div className="input-group">
+                                            <div className="input-group-prepend">
+                                                <div className="input-group-text">
+                                                    $
+                                                </div>
+                                            </div>
+                                            <input
+                                                ref={editAmount}
+                                                type="number"
+                                                name="amount"
+                                                className="form-control"
+                                                step="0"
+                                            />
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
                                 <th>Category</th>
-                                <td>{Category}</td>
-                                <td>
-                                    <select
-                                        className="form-select "
-                                        name="fk_category"
-                                        ref={editCategory}
-                                        defaultValue=""
-                                    >
-                                        <option hidden value="">
-                                            Choose a category...
-                                        </option>
-                                        {/* Inject categories HERE */}
-                                        <CategoryOptions />
-                                    </select>{" "}
+                                <td colSpan="2" className="row gap-1">
+                                    <div className="col-12 col-md">
+                                        {Category}
+                                    </div>
+                                    <div className="col-12 col-md-7">
+                                        <select
+                                            className="form-select"
+                                            name="fk_category"
+                                            ref={editCategory}
+                                            defaultValue=""
+                                        >
+                                            <option hidden value="">
+                                                Choose a category...
+                                            </option>
+                                            {/* Inject categories HERE */}
+                                            <CategoryOptions />
+                                        </select>{" "}
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>

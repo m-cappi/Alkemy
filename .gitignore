@@ -102,3 +102,4 @@ server/test/controller.js
 server/test/protect.js
 server/test/route.js
 mockAlkemy_LEGACY.sql
+react-client/src/components/EditTest.jsx

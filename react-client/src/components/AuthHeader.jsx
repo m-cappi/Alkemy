@@ -21,7 +21,7 @@ const AuthHeader = () => {
                     className="collapse navbar-collapse d-md-flex flex-md-row justify-content-md-between align-content-md-center "
                     id="navbarNav"
                 >
-                    <ul className="navbar-nav gap-5 mx-5">
+                    <ul className="navbar-nav gap-1 mx-5">
                         <li className="nav-item">
                             <NavLink
                                 activeClassName="active text-white "

@@ -15,26 +15,26 @@ const ExpenseScreen = () => {
     const { refresh, setRefresh } = useContext(RefreshContext);
 
     const [endpoint, setendpoint] = useState(
-        categoryFilter
-            ? `view/expense?id_category=${categoryFilter}`
-            : "view/expense"
+        categoryFilter?.fk_category
+            ? `view/income?id_category=${categoryFilter.fk_category}`
+            : "view/income"
     );
-
-    const { data, error, isPending } = useAsync({
-        promiseFn: loadExpense,
-        endpoint,
-        watch: refresh,
-    });
-
+    
     useEffect(() => {
         setendpoint(
-            categoryFilter
-                ? `view/expense?id_category=${categoryFilter}`
-                : "view/expense"
-        );
-        setRefresh(!refresh);
-    }, [categoryFilter]);
+            categoryFilter?.fk_category
+            ? `view/income?id_category=${categoryFilter.fk_category}`
+            : "view/income"
+            );
+            setRefresh(!refresh);
+        }, [categoryFilter]);
 
+        const { data, error, isPending } = useAsync({
+            promiseFn: loadExpense,
+            endpoint,
+            watch: refresh,
+        });
+        
     if (isPending) return <Loading />;
     if (error) return <ErrorWarning error={error} />;
 

@@ -22,7 +22,7 @@ const get = async (url = "", headers = {}) => {
         .then((res) => {
             if (!res.ok) {
                 console.log(res);
-                throw new Error(res.message);
+                throw new Error(res.statusText);
             }
             return res.json();
         })
@@ -51,7 +51,7 @@ const post = async (url = "", body = {}, headers = {}) => {
         .then((res) => {
             if (!res.ok) {
                 console.log(res);
-                throw new Error(res.message);
+                throw new Error(res.statusText);
             }
             return res.json();
         })
@@ -80,7 +80,7 @@ const put = async (url = "", body = {}, headers = {}) => {
         .then((res) => {
             if (!res.ok) {
                 console.log(res);
-                throw new Error(res.message);
+                throw new Error(res.statusText);
             }
             return res.json();
         })
@@ -109,7 +109,7 @@ const del = async (url = "", body = {}, headers = {}) => {
         .then((res) => {
             if (!res.ok) {
                 console.log(res);
-                throw new Error(res.message);
+                throw new Error(res.statusText);
             }
             return res;
         })

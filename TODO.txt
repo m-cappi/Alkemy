@@ -1,27 +1,20 @@
-FIX: <CookieContext.Provider value={}> parece necesitar un <CookieContext.Consumer ?=?> donde sea pertinente para usarlo. Investigar!
+[x](borratrix)FIX: <CookieContext.Provider value={}> parece necesitar un <CookieContext.Consumer ?=?> donde sea pertinente para usarlo. Investigar!
 
-en TableEdit: modificar los rows para que sea
-tr
-td
-div d-flex flex-column flex-md-rows
-td
-td
-/
+[x]en TableEdit: modificar los rows para que sea
+	alternativamente si no funciona...
+	td colspan=2 "d-flex flex-column flex-md-rows"
+	current
+	input
+	/
 
-alternativamente si no funciona...
-td colspan=2 "d-flex flex-column flex-md-rows"
-current
-input
-/
-
-Agregar confirmacion de contraseña
-Modularizar los errores: <ErrorDisplay error={error} /> y usar el de useAsync en los screen como template
-Modificar el filterContext para q sea un objeto {id_categ:#, nombre_categ:val} asi lo puede consumir y mostrar sin numeros en el filter_by
-Ajustar el cookie params
+[]Agregar confirmacion de contraseña
+[x]Modularizar los errores: <ErrorDisplay error={error} /> y usar el de useAsync en los screen como template
+[x]Modificar el filterContext para q sea un objeto {id_categ:#, nombre_categ:val} asi lo puede consumir y mostrar sin numeros en el filter_by
+[x]Ajustar el cookie params
 
 Edit User
 Delete User
 
+Custom Categories
 Mail de confirmacion de usuario
 Groups
-Custom Categories

@@ -14,26 +14,22 @@ const IncomeScreen = () => {
 
     const { refresh, setRefresh } = useContext(RefreshContext);
 
-    const [endpoint, setEndpoint] = useState(
-        categoryFilter
-            ? `view/income?id_category=${categoryFilter}`
-            : "view/income"
-    );
+    const [endpoint, setEndpoint] = useState("");
+
+    useEffect(() => {
+        setEndpoint(
+            categoryFilter?.fk_category
+                ? `view/income?id_category=${categoryFilter.fk_category}`
+                : "view/income"
+        );
+        setRefresh(!refresh);
+    }, [categoryFilter]);
 
     const { data, error, isPending } = useAsync({
         promiseFn: loadIncome,
         endpoint,
         watch: refresh,
     });
-
-    useEffect(() => {
-        setEndpoint(
-            categoryFilter
-                ? `view/income?id_category=${categoryFilter}`
-                : "view/income"
-        );
-        setRefresh(!refresh);
-    }, [categoryFilter]);
 
     if (isPending) return <Loading />;
     if (error) return <ErrorWarning error={error} />;

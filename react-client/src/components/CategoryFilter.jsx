@@ -8,7 +8,10 @@ const CategoryFilter = () => {
     );
 
     const handleChange = (e) => {
-        setCategoryFilter(e.target.value);
+        setCategoryFilter({
+            fk_category: e.target.value,
+            categ_name: e.target.selectedOptions[0].innerHTML,
+        });
     };
 
     return (
@@ -18,11 +21,10 @@ const CategoryFilter = () => {
                 <select
                     className="form-select"
                     name="fk_category"
-                    value={{ categoryFilter } || ""}
                     onChange={handleChange}
                 >
                     <option value="" hidden>
-                        {categoryFilter}
+                        {categoryFilter?.categ_name ? categoryFilter.categ_name : "Show all"}
                     </option>
                     <option value="">Show all</option>
                     <CategoryOptions />

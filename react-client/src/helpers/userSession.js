@@ -4,7 +4,9 @@ import { useCookies } from "react-cookie";
 
 export const UserSession = () => {
     const [cookies, setCookie] = useCookies([]);
-    const cookieParams = { path: "/" }
+
+    //maxAge : 24hs
+    const cookieParams = { path: "/", maxAge : 60*60*24, sameSite:"lax" }
 
     const registerCookies = (params) => {
         const { token, email, name, is_admin } = params;
