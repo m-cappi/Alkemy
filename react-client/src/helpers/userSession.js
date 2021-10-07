@@ -1,12 +1,13 @@
 import connection from "../database/connection";
 import { useCookies } from "react-cookie";
+import { userValidation } from "./userValidation";
 //import { UserSession } from "../helpers/userSession.js";
 
 export const UserSession = () => {
-    const [cookies, setCookie] = useCookies([]);
+    const [, setCookie] = useCookies([]);
 
     //maxAge : 24hs
-    const cookieParams = { path: "/", maxAge : 60*60*24, sameSite:"lax" }
+    const cookieParams = { path: "/", maxAge: 60 * 60 * 24, sameSite: "lax" };
 
     const registerCookies = (params) => {
         const { token, email, name, is_admin } = params;
@@ -30,6 +31,7 @@ export const UserSession = () => {
 
     const logIn = async (email, password) => {
         const body = { data: { email: email, password: password } };
+        userValidation(body.data)
         const res = await connection.post("auth/login", body);
         if (!res.success) {
             console.log(res);
@@ -48,6 +50,7 @@ export const UserSession = () => {
         const body = {
             data: { email: email, password: password, full_name: name },
         };
+        userValidation(body.data, true)
         const res = await connection.post("auth/register", body);
         if (!res.success) {
             console.log(res);

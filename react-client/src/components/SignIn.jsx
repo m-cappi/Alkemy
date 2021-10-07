@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { UserSession } from "../helpers/userSession.js";
+import ErrorWarning from "./ErrorWarning.jsx";
 
 const SignIn = () => {
     const email = useRef(null);
@@ -15,28 +16,14 @@ const SignIn = () => {
                 setError(null);
             })
             .catch((err) => {
-                setError(true);
+                setError(err);
             });
-        return;
-    };
-    const handleSignIn2 = (e) => {
-        try {
-            e.preventDefault();
-            logIn(email.current.value, password.current.value);
-        } catch (err) {
-            console.log(err);
-            setError(true);
-        }
         return;
     };
 
     return (
         <div className="d-flex flex-column align-items-center p-5">
-            {error && (
-                <div className="alert alert-danger" role="alert">
-                    Registration invalid!
-                </div>
-            )}
+            <ErrorWarning error={error} />
             <form onSubmit={handleSignIn}>
                 <div>
                     <div className="mb-3">
@@ -52,6 +39,7 @@ const SignIn = () => {
                             className="form-control"
                             id="exampleInputEmail1"
                             aria-describedby="emailHelp"
+                            required
                         />
                         <div id="emailHelp" className="form-text">
                             We'll never share your email with anyone else.
@@ -69,6 +57,7 @@ const SignIn = () => {
                             type="password"
                             className="form-control"
                             id="exampleInputPassword1"
+                            required
                         />
                     </div>
                 </div>
