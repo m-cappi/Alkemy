@@ -7,7 +7,7 @@
 	input
 	/
 
-[]Agregar confirmacion de contraseña
+[x]Agregar confirmacion de contraseña
 [x]Modularizar los errores: <ErrorDisplay error={error} /> y usar el de useAsync en los screen como template
 [x]Modificar el filterContext para q sea un objeto {id_categ:#, nombre_categ:val} asi lo puede consumir y mostrar sin numeros en el filter_by
 [x]Ajustar el cookie params
