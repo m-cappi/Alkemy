@@ -31,7 +31,6 @@ const TransactionNew = () => {
             fk_type: e.target.querySelector("input[name=fk_type]:checked")
                 .value,
         };
-
         await submitTransaction(payload)
             .then(() => {
                 e.target.reset();

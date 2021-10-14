@@ -14,7 +14,11 @@ const IncomeScreen = () => {
 
     const { refresh, setRefresh } = useContext(RefreshContext);
 
-    const [endpoint, setEndpoint] = useState("");
+    const [endpoint, setEndpoint] = useState(
+        categoryFilter?.fk_category
+            ? `view/income?id_category=${categoryFilter.fk_category}`
+            : "view/income"
+    );
 
     useEffect(() => {
         setEndpoint(

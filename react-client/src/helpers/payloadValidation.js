@@ -26,7 +26,7 @@ const transactionSchema = (isRequired = false) => {
     };
 
     if (isRequired) {
-        schema.creation_date.required = true;
+        //schema.creation_date.required = true;
         schema.concept.required = true;
         schema.amount.required = true;
         schema.fk_category.required = true;
