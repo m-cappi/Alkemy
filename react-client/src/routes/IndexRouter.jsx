@@ -10,7 +10,7 @@ import AuthRouter from "./AuthRouter";
 import { useCookies } from "react-cookie";
 
 const IndexRouter = () => {
-    const [cookies, setCookie] = useCookies(["auth"]);
+    const [cookies] = useCookies(["auth"]);
     const auth = cookies.auth || 0;
     //console.log("auth en Index Router es:", auth);
 
